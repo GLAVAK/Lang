@@ -25,5 +25,6 @@ enum opcode
     OPCODE_GOTO = 0x81,
 
     OPCODE_WRITE = 0xA0,
-    OPCODE_EXIT = 0xA1
+    OPCODE_EXIT = 0xA1,
+    OPCODE_READ = 0xA2
 };

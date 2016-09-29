@@ -77,6 +77,8 @@ class NodeMacro(TreeNode):
         if self.macro_name == 'write':
             expression_to_assign = self.left.get_byte_code(names_table)
             expression_to_assign.append(BytecodeLine(Opcode.OPCODE_WRITE))
+        elif self.macro_name == 'read':
+            expression_to_assign.append(BytecodeLine(Opcode.OPCODE_READ))
         elif self.macro_name == 'exit':
             expression_to_assign.append(BytecodeLine(Opcode.OPCODE_EXIT))
 
@@ -90,10 +92,9 @@ class NodeAssignment(TreeNode):
     def get_byte_code(self, names_table):
         expression_to_assign = self.right.get_byte_code(names_table)
 
-        code_line = BytecodeLine(Opcode.OPCODE_POP_MEM)
+        # Use SEEK, not POP, to leave result on the stack for chaining (a=b=c)
+        code_line = BytecodeLine(Opcode.OPCODE_SEEK_MEM)
         code_line.args.append(MemoryAddressArg(names_table[self.left.var_name]))
         expression_to_assign.append(code_line)
-
-        # todo: put the result back to the stack
 
         return expression_to_assign

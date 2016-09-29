@@ -34,6 +34,9 @@ class TokenMacro(Token):
         elif content == 'read' or content == 'exit':
             self.operands = 0
 
+    def get_priority(self) -> int:
+        return 1000  # should be higher than any operator priority
+
 
 def get_operator_priority(char: str) -> int:
     """

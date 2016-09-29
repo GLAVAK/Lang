@@ -15,22 +15,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9fd9c8c9-43e3-4d15-a394-404cc50604e0" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../compiler/my_parser/SimpleOptimizations.py" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../compiler/.idea/inspectionProfiles/profiles_settings.xml" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../compiler/prog" afterPath="$PROJECT_DIR$/../compiler/prog" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/prog" afterPath="$PROJECT_DIR$/prog" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../README.md" afterPath="$PROJECT_DIR$/../README.md" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/codeStyleSettings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/utils.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/utils.h" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../compiler/prog" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/prog" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../compiler/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../compiler/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../compiler/main.py" afterPath="$PROJECT_DIR$/../compiler/main.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../compiler/my_parser/CompileBlocks.py" afterPath="$PROJECT_DIR$/../compiler/my_parser/CompileBlocks.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../compiler/my_parser/LinkBlocks.py" afterPath="$PROJECT_DIR$/../compiler/my_parser/LinkBlocks.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../compiler/my_parser/Statement.py" afterPath="$PROJECT_DIR$/../compiler/my_parser/Statement.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../compiler/my_parser/StringToTree.py" afterPath="$PROJECT_DIR$/../compiler/my_parser/StringToTree.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../compiler/my_parser/TextToBlocks.py" afterPath="$PROJECT_DIR$/../compiler/my_parser/TextToBlocks.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../compiler/my_parser/EvaluationTree.py" afterPath="$PROJECT_DIR$/../compiler/my_parser/EvaluationTree.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../compiler/my_parser/Opcodes.py" afterPath="$PROJECT_DIR$/../compiler/my_parser/Opcodes.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../docs/vm_specs.txt" afterPath="$PROJECT_DIR$/../docs/vm_specs.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vm.iml" afterPath="$PROJECT_DIR$/.idea/vm.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/../compiler/my_parser/exceptions/CompilerError.py" afterPath="$PROJECT_DIR$/../compiler/my_parser/exceptions/compiler_error.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/../compiler/my_parser/exceptions/CompilerWarning.py" afterPath="$PROJECT_DIR$/../compiler/my_parser/exceptions/compiler_warning.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/../compiler/my_parser/exceptions/InternalError.py" afterPath="$PROJECT_DIR$/../compiler/my_parser/exceptions/internal_error.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CMakeLists.txt" afterPath="$PROJECT_DIR$/CMakeLists.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/launcher.c" afterPath="$PROJECT_DIR$/launcher.c" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/opcode.h" afterPath="$PROJECT_DIR$/opcode.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tester.c" afterPath="$PROJECT_DIR$/tester.c" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vm.c" afterPath="$PROJECT_DIR$/vm.c" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vm.h" afterPath="$PROJECT_DIR$/vm.h" />
     </list>
     <ignored path="vm.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -49,75 +51,104 @@
     <favorites_list name="vm" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="CMakeLists.txt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="11" column="44" selection-start-line="11" selection-start-column="44" selection-end-line="11" selection-end-column="44" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="vm.c" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/vm.c">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="442">
-              <caret line="26" column="0" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
-              <folding>
-                <element signature="e#0#18#0" expanded="true" />
-                <element signature="e#548#987#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="vm.h" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/vm.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="7" column="27" selection-start-line="7" selection-start-column="27" selection-end-line="7" selection-end-column="27" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="launcher.c" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/launcher.c">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
-              <caret line="17" column="36" selection-start-line="17" selection-start-column="36" selection-end-line="17" selection-end-column="36" />
-              <folding>
-                <element signature="e#42#60#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="tester.c" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tester.c">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="697">
-              <caret line="41" column="33" selection-start-line="41" selection-start-column="33" selection-end-line="41" selection-end-column="33" />
-              <folding>
-                <element signature="e#42#60#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="opcode.h" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/opcode.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="459">
-              <caret line="27" column="11" selection-start-line="27" selection-start-column="11" selection-end-line="27" selection-end-column="11" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <splitter split-orientation="horizontal" split-proportion="0.5">
+      <split-first>
+        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+          <file leaf-file-name="CMakeLists.txt" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="187">
+                  <caret line="11" column="44" selection-start-line="11" selection-start-column="44" selection-end-line="11" selection-end-column="44" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="vm.c" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/vm.c">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="560">
+                  <caret line="136" column="31" selection-start-line="136" selection-start-column="31" selection-end-line="136" selection-end-column="31" />
+                  <folding>
+                    <element signature="e#97#115#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="utils.h" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/utils.h">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="187">
+                  <caret line="11" column="20" selection-start-line="11" selection-start-column="20" selection-end-line="11" selection-end-column="20" />
+                  <folding>
+                    <element signature="e#81#100#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="utils.c" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/utils.c">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="306">
+                  <caret line="18" column="21" selection-start-line="18" selection-start-column="21" selection-end-line="18" selection-end-column="21" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="vm.h" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/vm.h">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="238">
+                  <caret line="14" column="12" selection-start-line="14" selection-start-column="12" selection-end-line="14" selection-end-column="12" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="launcher.c" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/launcher.c">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="459">
+                  <caret line="27" column="29" selection-start-line="27" selection-start-column="29" selection-end-line="27" selection-end-column="29" />
+                  <folding>
+                    <element signature="e#42#60#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="opcode.h" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/opcode.h">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="0">
+                  <caret line="0" column="2" selection-start-line="0" selection-start-column="2" selection-end-line="0" selection-end-column="2" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-first>
+      <split-second>
+        <leaf>
+          <file leaf-file-name="tester.c" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/tester.c">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="357">
+                  <caret line="22" column="27" selection-start-line="22" selection-start-column="27" selection-end-line="22" selection-end-column="27" />
+                  <folding>
+                    <element signature="e#42#60#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-second>
+    </splitter>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -129,11 +160,13 @@
         <option value="$PROJECT_DIR$/main.c" />
         <option value="$PROJECT_DIR$/Tester.c" />
         <option value="$PROJECT_DIR$/CMakeLists.txt" />
+        <option value="$PROJECT_DIR$/utils.h" />
+        <option value="$PROJECT_DIR$/utils.c" />
         <option value="$PROJECT_DIR$/vm.h" />
+        <option value="$PROJECT_DIR$/tester.c" />
         <option value="$PROJECT_DIR$/opcode.h" />
         <option value="$PROJECT_DIR$/vm.c" />
         <option value="$PROJECT_DIR$/launcher.c" />
-        <option value="$PROJECT_DIR$/tester.c" />
       </list>
     </option>
   </component>
@@ -143,6 +176,7 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
+  <component name="OCFindUsagesOptions" text="true" ivars="false" properties="true" derivedClasses="false" />
   <component name="ProjectFrameBounds">
     <option name="x" value="-8" />
     <option name="y" value="-8" />
@@ -199,7 +233,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="D:/Program Files/Git/bin/git.exe" />
-    <property name="settings.editor.selected.configurable" value="vcs.Git" />
+    <property name="settings.editor.selected.configurable" value="terminal" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
   </component>
   <component name="RunManager" selected="Application.launcher">
@@ -396,12 +430,12 @@
       <option name="presentableId" value="Default" />
       <updated>1474909447031</updated>
       <workItem from="1474909449082" duration="23195000" />
-      <workItem from="1475149701085" duration="2501000" />
+      <workItem from="1475149701085" duration="9709000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="25696000" />
+    <option name="totallyTimeSpent" value="32904000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1874" height="1096" extended-state="6" />
@@ -413,7 +447,7 @@
       <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3298969" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3346856" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3346856" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -442,12 +476,12 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/tester.c</url>
-          <line>17</line>
-          <option name="timeStamp" value="33" />
+          <url>file://$PROJECT_DIR$/vm.c</url>
+          <line>50</line>
+          <option name="timeStamp" value="34" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="34" />
+      <option name="time" value="36" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="CMakeRunConfiguration">
@@ -468,6 +502,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="188">
           <caret line="61" column="6" selection-start-line="0" selection-start-column="0" selection-end-line="807" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -477,6 +512,33 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="184">
           <caret line="47" column="14" selection-start-line="47" selection-start-column="14" selection-end-line="47" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/Program Files/mingw-w64/i686-5.3.0-posix-dwarf-rt_v4-rev0/mingw32/i686-w64-mingw32/include/assert.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="737">
+          <caret line="72" column="8" selection-start-line="72" selection-start-column="8" selection-end-line="72" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tester.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="22" column="27" selection-start-line="22" selection-start-column="27" selection-end-line="22" selection-end-column="27" />
+          <folding>
+            <element signature="e#42#60#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/opcode.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="2" selection-start-line="0" selection-start-column="2" selection-end-line="0" selection-end-column="2" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -488,50 +550,49 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/utils.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="18" column="21" selection-start-line="18" selection-start-column="21" selection-end-line="18" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/vm.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="26" column="0" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
+        <state relative-caret-position="560">
+          <caret line="136" column="31" selection-start-line="136" selection-start-column="31" selection-end-line="136" selection-end-column="31" />
           <folding>
-            <element signature="e#0#18#0" expanded="true" />
-            <element signature="e#548#987#0" expanded="false" />
+            <element signature="e#97#115#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/utils.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="11" column="20" selection-start-line="11" selection-start-column="20" selection-end-line="11" selection-end-column="20" />
+          <folding>
+            <element signature="e#81#100#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/vm.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="27" selection-start-line="7" selection-start-column="27" selection-end-line="7" selection-end-column="27" />
+        <state relative-caret-position="238">
+          <caret line="14" column="12" selection-start-line="14" selection-start-column="12" selection-end-line="14" selection-end-column="12" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/launcher.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="17" column="36" selection-start-line="17" selection-start-column="36" selection-end-line="17" selection-end-column="36" />
-          <folding>
-            <element signature="e#42#60#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tester.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="697">
-          <caret line="41" column="33" selection-start-line="41" selection-start-column="33" selection-end-line="41" selection-end-column="33" />
-          <folding>
-            <element signature="e#42#60#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/opcode.h">
-      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="459">
-          <caret line="27" column="11" selection-start-line="27" selection-start-column="11" selection-end-line="27" selection-end-column="11" />
-          <folding />
+          <caret line="27" column="29" selection-start-line="27" selection-start-column="29" selection-end-line="27" selection-end-column="29" />
+          <folding>
+            <element signature="e#42#60#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

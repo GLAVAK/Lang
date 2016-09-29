@@ -6,7 +6,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 set(SOURCE_FILES
         vm.c
         opcode.h
-        vm.h)
+        vm.h utils.h utils.c)
 
 add_executable(launcher ${SOURCE_FILES} launcher.c)
 add_executable(tester ${SOURCE_FILES} tester.c)

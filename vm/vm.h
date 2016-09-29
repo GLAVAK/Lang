@@ -9,10 +9,10 @@ typedef unsigned char byte;
 
 struct vm_settings
 {
-    char * program_filename;
+    unsigned char * program_filename;
 
     // Function, which will be called by vm when it want to print something to console
-    void (*print)(char *);
+    void (*print)(unsigned char *);
 
     // Function, which will be called by vm when it want to read something from console
     int (*read)();

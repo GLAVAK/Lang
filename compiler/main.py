@@ -38,7 +38,7 @@ for bytecode_line in final_program:
 
 # Open file and write all bytecode lines (ops) to it. The ProgramAddressArg will take required
 # address automatically, based on block.bytecode_position
-file = open("prog", "wb")
+file = open("../program", "wb")
 for bytecode_line in final_program:
     bytecode_line.pack(file)
 

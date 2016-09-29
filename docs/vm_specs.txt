@@ -33,3 +33,4 @@ Goto       0x81   no ops                ; pops 1 adress, jumps
 And just for now:
 Write      0xA0   no ops                ; does NOT pops value
 Exit       0xA1   no ops                ; Exits program, should be at the end 
+Read       0xA2   no ops                ; Pushes read value

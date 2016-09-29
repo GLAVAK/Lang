@@ -3,15 +3,15 @@
 //
 
 #include <stdio.h>
-#include <stdlib.h>
 
 #include "vm.h"
+#include "utils.h"
 
-char *expected_output;
+unsigned char * expected_output;
 int symbols_printed;
 int failed;
 
-void vm_print(char *str)
+void vm_print(unsigned char * str)
 {
     while (*str != '\0')
     {
@@ -34,31 +34,20 @@ void vm_print(char *str)
     }
 }
 
-void get_expected_output(char *filename)
-{
-    FILE *file;
-    fopen_s(&file, filename, "r");
-
-    // FIXME: reads only one line
-    expected_output = malloc(sizeof(byte) * 1024);
-    fscanf(file, "%s", expected_output);
-
-    fclose(file);
-}
-
 void launch_test(int number)
 {
     char f[100];
     sprintf(f, "tests/%d.out", number);
 
-    get_expected_output(f);
+    size_t expected_output_size;
+    expected_output = read_file(f, &expected_output_size);
     symbols_printed = 0;
     failed = 0;
 
     struct vm_settings settings;
 
     sprintf(f, "tests/%d", number);
-    settings.program_filename = f;
+    settings.program_filename = (unsigned char *) f;
     settings.print = &vm_print;
 
     start_vm(settings);
@@ -81,6 +70,10 @@ void launch_test(int number)
 
 void main()
 {
-    launch_test(1);
-    launch_test(2);
+    int tests_count = 3;
+
+    for (int i = 1; i <= tests_count; ++i)
+    {
+        launch_test(i);
+    }
 }
