@@ -22,6 +22,7 @@ You can assign only integer numbers(yet) to the vars, by just assigning to them
 
 ## Supported macros and operators
 ### Math
+
 | Operator | Operands | Returns | Description |
 | --- | --- | --- |
 | + | 2 numbers | Result | Addition |
@@ -33,6 +34,7 @@ You can assign only integer numbers(yet) to the vars, by just assigning to them
 | < | 2 numbers | 1 if true, 0 otherwise | Less |
 
 ### Macros
+
 | Macro | Operands | Description |
 | write(a) | Number | Writes to console |
 | read() | No | Reads from console (not yet implemented) |
