@@ -1,0 +1,35 @@
+Push(value) command pushes constant to the stack
+Push(memory) pushes value from memory cell with given id to the stack
+Add()/Mul()/etc - works on stack top operands, result is pushed back to the stack
+Greater()/Less()/Eq - the same, pushes back boolean
+Goto() pops address and value from stack and goes to address if value not zero
+
+Memory is limited array of cells, every cell is 4 bytes, there are 256 cells
+
+
+Now the table:
+PushVal    0x01   1op
+PushMem    0x02   1addr op
+
+PopMem     0x15   1addr op
+SeekMem    0x16   1addr op              ; same as PopMem, bot w/o actual popping
+
+Add        0x30   no ops
+Sub        0x31   no ops
+Mul        0x32   no ops
+Div        0x33   no ops
+
+Equals     0x50   no ops
+!Equals    0x51   no ops
+
+Greater    0x52   no ops
+Less       0x53   no ops
+
+If         0x80   no ops                ; pops a1, a2, if(a1) Goto a2
+Goto       0x81   no ops                ; pops 1 adress, jumps
+
+
+
+And just for now:
+Write      0xA0   no ops                ; does NOT pops value
+Exit       0xA1   no ops                ; Exits program, should be at the end 

@@ -1,0 +1,9 @@
+             v[count = 11]
+             v[a1 = 0]
+             v[a2 = 1]
+             v                      <
+             v[a3 = a1 + a2]
+             v[a1 = a2]
+[exit()]     v[a2 = a3]             ^[write(a1)]
+             v[count = count - 1]
+^            <{count > 0}>          ^
