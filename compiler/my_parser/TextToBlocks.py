@@ -1,9 +1,10 @@
 from my_parser.CodeBlock import CodeBlockEmpty, CodeBlockStatement, CodeBlockCondition, MovingDirection
 from my_parser.StringToTree import string_to_tree
+from my_parser.exceptions.compiler_error import CompilerError
 
 
 def is_direction_char(char: str) -> bool:
-    return char == '>' or char == '^' or char == '<' or char == 'v' or char == 'V'
+    return char_to_direction(char) is not None
 
 
 def char_to_direction(char: str) -> MovingDirection:
@@ -15,6 +16,8 @@ def char_to_direction(char: str) -> MovingDirection:
         return MovingDirection.left
     elif char == 'v' or char == 'V':
         return MovingDirection.down
+    else:
+        return None
 
 
 def text_to_block(file, name_table):
@@ -65,9 +68,9 @@ def text_to_block(file, name_table):
                 current_block.width += len(block_content)
 
                 if char == ']' and isinstance(current_block, CodeBlockStatement):
-                    current_block.evaluation_tree = string_to_tree(block_content, name_table)
+                    current_block.evaluation_tree = string_to_tree(block_content, name_table, current_block)
                 elif char == '}' and isinstance(current_block, CodeBlockCondition):
-                    current_block.evaluation_tree = string_to_tree(block_content, name_table)
+                    current_block.evaluation_tree = string_to_tree(block_content, name_table, current_block)
 
                 blocks.append(current_block)
                 previous_block = current_block
@@ -99,9 +102,14 @@ def text_to_block(file, name_table):
                     else:
                         # " <?" situation
                         # create empty_block, in case there are no '[' or "{" after
-                        # TODO: if empty block at the end of the line
                         empty_block = CodeBlockEmpty(line_num, column_num)
+                elif char != ' ' and char != '\n':
+                    raise CompilerError(line_num, column_num, "Unknown char outside of a block")
+
                 previous_block = None
+
+        if current_block is not None:
+            raise CompilerError(line_num, None, "Block not closed, but end of line reached")
 
         if empty_block is not None:
             empty_block.direction = char_to_direction(previous_char)

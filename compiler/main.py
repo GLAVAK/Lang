@@ -1,6 +1,7 @@
 from my_parser.CodeBlock import CodeBlockCondition, CodeBlockStatement
 from my_parser.CompileBlocks import compile_blocks
 from my_parser.LinkBlocks import link_blocks
+from my_parser.SimpleOptimizations import remove_empty_blocks
 from my_parser.TextToBlocks import text_to_block
 
 # First, read all blocks from file, define their types (Empty, Statement, Condition),
@@ -13,6 +14,9 @@ blocks = text_to_block(open("code_examples/fibb.txt"), names_table)
 # Then connect all the blocks to each other, using their next block direction and
 # position, and save this information in the next_block field
 link_blocks(blocks)
+
+# Remove empty blocks, keeping connections correct
+remove_empty_blocks(blocks)
 
 # Get actual list of opcodes for each block, and store it in it's bytecode field (without
 # GOTO's and IF's yet)
@@ -37,5 +41,8 @@ for bytecode_line in final_program:
 file = open("prog", "wb")
 for bytecode_line in final_program:
     bytecode_line.pack(file)
+
+
+# TODO: figure out how to call files, functions and classes to avoid import conflicts
 
 print(blocks)

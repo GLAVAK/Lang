@@ -17,13 +17,7 @@ def compile_blocks(blocks):
         if isinstance(block, CodeBlockStatement) or isinstance(block, CodeBlockEmpty):
             # TODO: empty blocks should be removed on optimization stage, not compiled
             block_true_push_addr = BytecodeLine(Opcode.OPCODE_PUSH_VAL)
-            if block.next_block is not None:
-                block_true_push_addr.args.append(ProgramAddressArg(block.next_block))
-            else:
-                # TODO: Just forward control flow to itself for now, but that should be reworked for
-                # block to point cycled (snake game-like topology) int link_blocks, if there are no
-                # block after the arrow
-                block_true_push_addr.args.append(ProgramAddressArg(block))
+            block_true_push_addr.args.append(ProgramAddressArg(block.next_block))
             final_program.append(block_true_push_addr)
 
             block_exit_goto = BytecodeLine(Opcode.OPCODE_GOTO)

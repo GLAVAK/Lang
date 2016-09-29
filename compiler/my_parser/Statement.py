@@ -7,19 +7,7 @@ class TokenOperator(Token):
         self.content = content
 
     def get_priority(self) -> int:
-        if self.content == '*' or self.content == '/':
-            return 10
-        elif self.content == '+' or self.content == '-':
-            return 8
-        elif self.content == '>' or self.content == '<':
-            # greater/less
-            return 6
-        elif self.content == '=':
-            return 4
-        elif self.content == '(' or self.content == ')':
-            return 2
-        else:
-            return -1
+        return get_operator_priority(self.content)
 
     def is_right_associative(self) -> bool:
         if self.content == '=':
@@ -47,16 +35,34 @@ class TokenMacro(Token):
             self.operands = 0
 
 
-def is_operand(char: str) -> bool:
-    return char == '+' \
-           or char == '-' \
-           or char == '/' \
-           or char == '*' \
-           or char == '=' \
-           or char == '<' \
-           or char == '>' \
-           or char == '(' \
-           or char == ')'
+def get_operator_priority(char: str) -> int:
+    """
+    Used to get operator priority, or to check if char is correct operator
+    :param char: Operator
+    :return: Operator priority (positive), or -1 if char is not correct operator
+    """
+    if char == '*' or char == '/':
+        return 10
+    elif char == '+' or char == '-':
+        return 8
+    elif char == '>' or char == '<':
+        # greater/less
+        return 6
+    elif char == '=':
+        return 4
+    elif char == '(' or char == ')':
+        return 2
+    else:
+        return -1
+
+
+def is_operator(char: str) -> bool:
+    """
+    Used to check if char is correct operator, uses get_operator_priority()
+    :param char: Operator
+    :return: Is char a correct operator
+    """
+    return get_operator_priority(char) != -1
 
 
 def is_macro(identifier: str) -> bool:
@@ -67,7 +73,7 @@ def create_token(string: str) -> Token:
     try:
         return TokenInteger(int(string))
     except ValueError:
-        if is_operand(string):
+        if is_operator(string):
             return TokenOperator(string)
         elif is_macro(string):
             return TokenMacro(string)
@@ -82,7 +88,7 @@ def parse_on_tokens(text):
     tokens = []
 
     for char in text:
-        if is_operand(char):
+        if is_operator(char):
             if last_token != "":
                 tokens.append(create_token(last_token))
                 last_token = ""

@@ -30,7 +30,7 @@ You can assign only integer numbers(yet) to the vars, by just assigning to them
 | * | 2 numbers | Result | Multiplication |
 | / | 2 numbers | Result | Division |
 | = | Varname and number | Number for chaining | Assignment |
-| < | 2 numbers | 1 if true, 0 otherwise | Greater |
+| > | 2 numbers | 1 if true, 0 otherwise | Greater |
 | < | 2 numbers | 1 if true, 0 otherwise | Less |
 
 ### Macros
