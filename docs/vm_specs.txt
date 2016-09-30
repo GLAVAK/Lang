@@ -18,12 +18,15 @@ Add        0x30   no ops
 Sub        0x31   no ops
 Mul        0x32   no ops
 Div        0x33   no ops
+Invert     0x34   no ops                ; inverts top of the stack
 
 Equals     0x50   no ops
 !Equals    0x51   no ops
 
 Greater    0x52   no ops
 Less       0x53   no ops
+
+Not        0x5A   no ops
 
 If         0x80   no ops                ; pops a1, a2, if(a1) Goto a2
 Goto       0x81   no ops                ; pops 1 adress, jumps

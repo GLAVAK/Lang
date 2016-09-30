@@ -16,7 +16,7 @@ def rpn_to_tree(rpn, name_table, code_block: CodeBlock):
                 name_table[token.content] = len(name_table)
         elif isinstance(token, TokenMacro):
             node = NodeMacro(token.content)
-            if token.operands >= 1:
+            if token.get_arguments_count() >= 1:
                 if len(stack) < 1:
                     raise CompilerError(code_block.line, code_block.column + 1, "Error in expression")
                 node.left = stack.pop()
@@ -26,10 +26,12 @@ def rpn_to_tree(rpn, name_table, code_block: CodeBlock):
                 node = NodeAssignment()
             else:
                 node = NodeOperator(token.content)
-            if len(stack) < 2:
+            if len(stack) < token.get_arguments_count():
                 raise CompilerError(code_block.line, code_block.column + 1, "Error in expression")
-            node.right = stack.pop()
-            node.left = stack.pop()
+            if token.get_arguments_count() >= 2:
+                node.right = stack.pop()
+            if token.get_arguments_count() >= 1:
+                node.left = stack.pop()
             stack.append(node)
 
     if len(stack) != 1:

@@ -29,14 +29,20 @@ class NodeOperator(TreeNode):
             return Opcode.OPCODE_MUL
         elif self.operator == '/':
             return Opcode.OPCODE_DIV
+        elif self.operator == '+-':
+            return Opcode.OPCODE_INVERT
         elif self.operator == '>':
             return Opcode.OPCODE_GREATER
         elif self.operator == '<':
             return Opcode.OPCODE_LESS
+        elif self.operator == '!':
+            return Opcode.OPCODE_NOT
 
     def get_byte_code(self, names_table):
         expression_to_assign = self.left.get_byte_code(names_table)
-        expression_to_assign.extend(self.right.get_byte_code(names_table))
+
+        if self.right is not None:
+            expression_to_assign.extend(self.right.get_byte_code(names_table))
 
         code_line = BytecodeLine(self.get_operator_opcode())
         expression_to_assign.append(code_line)

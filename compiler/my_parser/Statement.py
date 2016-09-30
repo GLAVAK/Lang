@@ -10,10 +10,16 @@ class TokenOperator(Token):
         return get_operator_priority(self.content)
 
     def is_right_associative(self) -> bool:
-        if self.content == '=':
+        if self.content == '=' or self.content == '!':
             return True
         else:
             return False
+
+    def get_arguments_count(self):
+        if self.content == '!' or self.content == '+-':
+            return 1
+        else:
+            return 2
 
 
 class TokenInteger(Token):
@@ -37,6 +43,12 @@ class TokenMacro(Token):
     def get_priority(self) -> int:
         return 1000  # should be higher than any operator priority
 
+    def get_arguments_count(self):
+        if self.content == 'write':
+            return 1
+        elif self.content == 'read' or self.content == 'exit':
+            return 0
+
 
 def get_operator_priority(char: str) -> int:
     """
@@ -44,7 +56,10 @@ def get_operator_priority(char: str) -> int:
     :param char: Operator
     :return: Operator priority (positive), or -1 if char is not correct operator
     """
-    if char == '*' or char == '/':
+    if char == '!' or char == '+-':
+        # '+-' - unary minus
+        return 12
+    elif char == '*' or char == '/':
         return 10
     elif char == '+' or char == '-':
         return 8
@@ -95,7 +110,11 @@ def parse_on_tokens(text):
             if last_token != "":
                 tokens.append(create_token(last_token))
                 last_token = ""
-            tokens.append(create_token(char))
+            if char == '-' and len(tokens) > 0 and isinstance(tokens[-1], TokenOperator):
+                # unary minus
+                tokens.append(create_token("+-"))
+            else:
+                tokens.append(create_token(char))
 
         elif char == " " or char == "\t":
             if last_token != "":

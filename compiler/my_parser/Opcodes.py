@@ -12,12 +12,15 @@ class Opcode(Enum):
     OPCODE_SUB = 0x31
     OPCODE_MUL = 0x32
     OPCODE_DIV = 0x33
+    OPCODE_INVERT = 0x34
 
     OPCODE_EQUALS = 0x50
     OPCODE_NOT_EQUALS = 0x51
 
     OPCODE_GREATER = 0x52
     OPCODE_LESS = 0x53
+
+    OPCODE_NOT = 0x5A
 
     OPCODE_IF = 0x80
     OPCODE_GOTO = 0x81

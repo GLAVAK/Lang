@@ -87,6 +87,10 @@ int start_vm(struct vm_settings settings)
                 stack[stackSize - 2] = stack[stackSize - 2] * stack[stackSize - 1];
                 stackSize--;
                 break;
+            case OPCODE_INVERT:
+                assert(stackSize >= 1);
+                stack[stackSize - 1] = -stack[stackSize - 1];
+                break;
 
             case OPCODE_EQUALS:
                 assert(stackSize >= 2);
@@ -107,6 +111,12 @@ int start_vm(struct vm_settings settings)
             case OPCODE_LESS:
                 assert(stackSize >= 2);
                 stack[stackSize - 2] = stack[stackSize - 2] < stack[stackSize - 1];
+                stackSize--;
+                break;
+
+            case OPCODE_NOT:
+                assert(stackSize >= 1);
+                stack[stackSize - 1] = !stack[stackSize - 1];
                 stackSize--;
                 break;
 
@@ -139,7 +149,7 @@ int start_vm(struct vm_settings settings)
                 break;
 
             default:
-                printf("ERR");
+                printf("Unknown opcode");
                 free(program);
                 free(str_for_print);
                 return 0;

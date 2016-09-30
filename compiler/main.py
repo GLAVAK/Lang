@@ -9,7 +9,7 @@ from my_parser.TextToBlocks import text_to_block
 # the block to EvaluationTree using string_to_tree() function. It also fills name_table
 # for us, which contains var's names and their positions in memory
 names_table = {}
-blocks = text_to_block(open("code_examples/fibb.txt"), names_table)
+blocks = text_to_block(open("code_examples/unary.txt"), names_table)
 
 # Then connect all the blocks to each other, using their next block direction and
 # position, and save this information in the next_block field
