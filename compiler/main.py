@@ -26,6 +26,8 @@ for block in blocks:
 
 # here goes optimizations that can change bytecode length
 
+# TODO: sort the graph here, to minimize GOTO's count
+
 # Put all blocks to the final program, and define their position in there. GOTO's are put
 # in the end of each block, but with auto addresses (ProgramAddressArg which points to the
 # block we want to GO TO)
@@ -42,7 +44,6 @@ file = open("../program", "wb")
 for bytecode_line in final_program:
     bytecode_line.pack(file)
 
-
 # TODO: figure out how to call files, functions and classes to avoid import conflicts
 
-print(blocks)
+print("Compilation successful")
