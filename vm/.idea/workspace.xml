@@ -16,9 +16,6 @@
   <component name="ChangeListManager">
     <list default="true" id="9fd9c8c9-43e3-4d15-a394-404cc50604e0" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../compiler/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../compiler/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../compiler/main.py" afterPath="$PROJECT_DIR$/../compiler/main.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../compiler/my_parser/CompileBlocks.py" afterPath="$PROJECT_DIR$/../compiler/my_parser/CompileBlocks.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="vm.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -84,7 +81,7 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="vm.h" pinned="false" current-in-tab="true">
+          <file leaf-file-name="vm.h" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/vm.h">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="204">
@@ -106,7 +103,7 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="opcode.h" pinned="false" current-in-tab="false">
+          <file leaf-file-name="opcode.h" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/opcode.h">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="0">
@@ -416,12 +413,12 @@
       <option name="presentableId" value="Default" />
       <updated>1474909447031</updated>
       <workItem from="1474909449082" duration="23195000" />
-      <workItem from="1475149701085" duration="13766000" />
+      <workItem from="1475149701085" duration="14249000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="36961000" />
+    <option name="totallyTimeSpent" value="37444000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1874" height="1096" extended-state="6" />
@@ -538,14 +535,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/opcode.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="2" selection-start-line="0" selection-start-column="2" selection-end-line="0" selection-end-column="2" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/utils.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
@@ -578,6 +567,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
           <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/opcode.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="2" selection-start-line="0" selection-start-column="2" selection-end-line="0" selection-end-column="2" />
           <folding />
         </state>
       </provider>
