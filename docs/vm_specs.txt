@@ -25,6 +25,8 @@ Equals     0x50   no ops
 
 Greater    0x52   no ops
 Less       0x53   no ops
+GreaterEq  0x54   no ops
+LessEq     0x55   no ops
 
 Not        0x5A   no ops
 

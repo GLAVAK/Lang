@@ -20,6 +20,7 @@ def char_to_direction(char: str) -> MovingDirection:
         return None
 
 
+# TODO: too long function, a bit of refactoring would be nice
 def text_to_block(file, name_table):
     """
     Parses all blocks from code file, without linking them to each other

@@ -1,5 +1,6 @@
 from my_parser.BytecodeLine import BytecodeLine, NumericArg, MemoryAddressArg
 from my_parser.Opcodes import Opcode
+from my_parser.exceptions.internal_error import InternalError
 
 
 class TreeNode:
@@ -23,20 +24,42 @@ class NodeOperator(TreeNode):
     def get_operator_opcode(self) -> Opcode:
         if self.operator == '+':
             return Opcode.OPCODE_ADD
+
         elif self.operator == '-':
             return Opcode.OPCODE_SUB
+
         elif self.operator == '*':
             return Opcode.OPCODE_MUL
+
         elif self.operator == '/':
             return Opcode.OPCODE_DIV
-        elif self.operator == '+-':
+
+        elif self.operator == '#':
             return Opcode.OPCODE_INVERT
-        elif self.operator == '>':
+
+        elif self.operator == '==':
+            return Opcode.OPCODE_EQUALS
+
+        elif self.operator == '!=':
+            return Opcode.OPCODE_NOT_EQUALS
+
+        elif self.operator == '<':
             return Opcode.OPCODE_GREATER
+
         elif self.operator == '<':
             return Opcode.OPCODE_LESS
+
+        elif self.operator == '>=':
+            return Opcode.OPCODE_GREATER_EQUAL
+
+        elif self.operator == '<=':
+            return Opcode.OPCODE_LESS_EQUAL
+
         elif self.operator == '!':
             return Opcode.OPCODE_NOT
+
+        else:
+            raise InternalError("Undefined operator with content '"+self.operator+"'")
 
     def get_byte_code(self, names_table):
         expression_to_assign = self.left.get_byte_code(names_table)

@@ -16,7 +16,8 @@ class TokenOperator(Token):
             return False
 
     def get_arguments_count(self):
-        if self.content == '!' or self.content == '+-':
+        if self.content == '!' or self.content == '#':
+            # '#' - unary minus
             return 1
         else:
             return 2
@@ -56,15 +57,16 @@ def get_operator_priority(char: str) -> int:
     :param char: Operator
     :return: Operator priority (positive), or -1 if char is not correct operator
     """
-    if char == '!' or char == '+-':
-        # '+-' - unary minus
+    if char == '!' or char == '#':
+        # '#' - unary minus
         return 12
     elif char == '*' or char == '/':
         return 10
     elif char == '+' or char == '-':
         return 8
-    elif char == '>' or char == '<':
-        # greater/less
+    elif char == '>' or char == '<'\
+            or char == '>=' or char == '<='\
+            or char == '==' or char == '!=':
         return 6
     elif char == '=':
         return 4
@@ -104,25 +106,37 @@ def parse_on_tokens(text):
 
     last_token = ""
     tokens = []
+    # TODO: double chars operators (<= etc)
 
-    for char in text:
-        if is_operator(char):
+    num = 0
+    while num < len(text):
+        if is_operator(text[num:num+2]):
             if last_token != "":
                 tokens.append(create_token(last_token))
                 last_token = ""
-            if char == '-' and len(tokens) > 0 and isinstance(tokens[-1], TokenOperator):
+            tokens.append(create_token(text[num:num+2]))
+            num += 2
+
+        elif is_operator(text[num]):
+            if last_token != "":
+                tokens.append(create_token(last_token))
+                last_token = ""
+            if text[num] == '-' and len(tokens) > 0 and isinstance(tokens[-1], TokenOperator):
                 # unary minus
-                tokens.append(create_token("+-"))
+                tokens.append(create_token("#"))
             else:
-                tokens.append(create_token(char))
+                tokens.append(create_token(text[num]))
+            num += 1
 
-        elif char == " " or char == "\t":
+        elif text[num] == " " or text[num] == "\t":
             if last_token != "":
                 tokens.append(create_token(last_token))
                 last_token = ""
+            num += 1
 
         else:
-            last_token += char
+            last_token += text[num]
+            num += 1
 
     if last_token != "":
         tokens.append(create_token(last_token))

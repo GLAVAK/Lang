@@ -15,7 +15,6 @@ def remove_empty_blocks(blocks):
             # We'll remove empty blocks later, after removing their dependencies
             continue
         elif isinstance(block, CodeBlockStatement):
-            # TODO: handle cycling (Ex: [a=1]> > < )
             visited_blocks = []
             while isinstance(block.next_block, CodeBlockEmpty):
                 block.next_block = block.next_block.next_block
@@ -26,7 +25,6 @@ def remove_empty_blocks(blocks):
                 visited_blocks.append(block.next_block)
 
         elif isinstance(block, CodeBlockCondition):
-            # TODO: handle cycling (Ex: [a=1]> > < )
             visited_blocks = []
             while isinstance(block.true_block, CodeBlockEmpty):
                 block.true_block = block.true_block.next_block

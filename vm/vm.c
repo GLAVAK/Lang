@@ -113,11 +113,20 @@ int start_vm(struct vm_settings settings)
                 stack[stackSize - 2] = stack[stackSize - 2] < stack[stackSize - 1];
                 stackSize--;
                 break;
+            case OPCODE_GREATER_EQUAL:
+                assert(stackSize >= 2);
+                stack[stackSize - 2] = stack[stackSize - 2] >= stack[stackSize - 1];
+                stackSize--;
+                break;
+            case OPCODE_LESS_EQUAL:
+                assert(stackSize >= 2);
+                stack[stackSize - 2] = stack[stackSize - 2] <= stack[stackSize - 1];
+                stackSize--;
+                break;
 
             case OPCODE_NOT:
                 assert(stackSize >= 1);
                 stack[stackSize - 1] = !stack[stackSize - 1];
-                stackSize--;
                 break;
 
             case OPCODE_IF:

@@ -2,6 +2,7 @@ from my_parser.CodeBlock import CodeBlockCondition, CodeBlockStatement
 from my_parser.CompileBlocks import compile_blocks
 from my_parser.LinkBlocks import link_blocks
 from my_parser.SimpleOptimizations import remove_empty_blocks
+from my_parser.SortBlocks import sort_blocks
 from my_parser.TextToBlocks import text_to_block
 
 # First, read all blocks from file, define their types (Empty, Statement, Condition),
@@ -9,7 +10,7 @@ from my_parser.TextToBlocks import text_to_block
 # the block to EvaluationTree using string_to_tree() function. It also fills name_table
 # for us, which contains var's names and their positions in memory
 names_table = {}
-blocks = text_to_block(open("code_examples/unary.txt"), names_table)
+blocks = text_to_block(open("code_examples/fibb.txt"), names_table)
 
 # Then connect all the blocks to each other, using their next block direction and
 # position, and save this information in the next_block field
@@ -26,7 +27,7 @@ for block in blocks:
 
 # here goes optimizations that can change bytecode length
 
-# TODO: sort the graph here, to minimize GOTO's count
+sort_blocks(blocks)
 
 # Put all blocks to the final program, and define their position in there. GOTO's are put
 # in the end of each block, but with auto addresses (ProgramAddressArg which points to the

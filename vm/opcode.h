@@ -21,6 +21,8 @@ enum opcode
 
     OPCODE_GREATER = 0x52,
     OPCODE_LESS = 0x53,
+    OPCODE_GREATER_EQUAL = 0x54,
+    OPCODE_LESS_EQUAL = 0x55,
 
     OPCODE_NOT = 0x5A,
 
