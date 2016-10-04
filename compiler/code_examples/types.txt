@@ -1,7 +1,8 @@
-v[f3 = read()]
+v[tr = true]
+v[fa = false]
 
-v[f1 = f(f3)+2.]
-
-v[write(f1<=42.)]
-v[write(f1)]
+v[write(fa | false)]
+v[write(tr | false)]
+v[write(tr & true)]
+v[write(tr & false)]
 v[exit()]

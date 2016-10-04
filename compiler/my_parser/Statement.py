@@ -95,6 +95,8 @@ def get_operator_priority(char: str) -> int:
             or char == '>=' or char == '<='\
             or char == '==' or char == '!=':
         return 6
+    elif char == '&' or char == '|':
+        return 5
     elif char == '=':
         return 4
     elif char == '(' or char == ')':

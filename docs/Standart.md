@@ -49,6 +49,8 @@ _Note: in this section "n" means i or f, and "x" means any type_
 | <        | n < n     | b       | Less             |
 | >=       | n >= n    | b       | Greater or equal |
 | <=       | n <= n    | b       | Less or equal    |
+| &        | b & b     | b       | Logical and      |
+| |        | b | b     | b       | Logical or       |
 | !        | b         | b       | Logical not      |
 
 ## Macros

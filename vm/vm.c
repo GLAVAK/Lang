@@ -182,12 +182,12 @@ int start_vm(struct vm_settings settings)
                 break;
             case OPCODE_AND:
                 assert(stackSize >= 2);
-                stack[stackSize - 1].data.b = stack[stackSize - 2].data.b && stack[stackSize - 1].data.b;
+                stack[stackSize - 2].data.b = stack[stackSize - 2].data.b && stack[stackSize - 1].data.b;
                 stackSize--;
                 break;
             case OPCODE_OR:
                 assert(stackSize >= 2);
-                stack[stackSize - 1].data.b = stack[stackSize - 2].data.b || stack[stackSize - 1].data.b;
+                stack[stackSize - 2].data.b = stack[stackSize - 2].data.b || stack[stackSize - 1].data.b;
                 stackSize--;
                 break;
 

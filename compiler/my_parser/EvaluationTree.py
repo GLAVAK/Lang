@@ -101,6 +101,14 @@ class NodeOperator(TreeNode):
             elif operands_type is DataType.float:
                 return Opcode.OPCODE_LESS_EQUAL_F
 
+        elif self.operator == '&':
+            if operands_type is DataType.boolean:
+                return Opcode.OPCODE_AND
+
+        elif self.operator == '|':
+            if operands_type is DataType.boolean:
+                return Opcode.OPCODE_OR
+
         elif self.operator == '!':
             return Opcode.OPCODE_NOT
 
@@ -141,7 +149,15 @@ class NodeOperator(TreeNode):
                                     self.operator == '<=':
                         return DataType.boolean
                     else:
-                        raise CompilerError(0, 0, "Invalid operand type")
+                        raise CompilerError(0, 0, "Invalid operands types")
+                elif self.left.get_return_type(scope) is DataType.boolean:
+                    if self.operator == '|' or \
+                                    self.operator == '&':
+                        return DataType.boolean
+                    else:
+                        raise CompilerError(0, 0, "Invalid operands types")
+                else:
+                    raise CompilerError(0, 0, "Invalid operands types")
             else:
                 # TODO: error line and col
                 raise CompilerError(0, 0, "Operation on different types, explicit conversion required")
