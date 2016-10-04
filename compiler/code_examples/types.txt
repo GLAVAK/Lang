@@ -1,0 +1,7 @@
+v[f3 = read()]
+
+v[f1 = f(f3)+2.]
+
+v[write(f1<=42.)]
+v[write(f1)]
+v[exit()]

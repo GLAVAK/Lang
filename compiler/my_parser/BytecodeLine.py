@@ -36,13 +36,13 @@ class OpArg:
         pass
 
 
-class NumericArg(OpArg):
+class IntegerArg(OpArg):
     def __init__(self, num: int):
         self.num = num
 
     def pack(self, file):
-        data = bytearray(4)
-        struct.pack_into(">I", data, 0, self.num)
+        data = bytearray(self.get_length_in_bytes())
+        struct.pack_into(">i", data, 0, self.num)
         file.write(data)
 
     def get_length_in_bytes(self):
@@ -52,12 +52,44 @@ class NumericArg(OpArg):
         return " const(" + str(self.num) + ")"
 
 
+class FloatArg(OpArg):
+    def __init__(self, num: float):
+        self.num = num
+
+    def pack(self, file):
+        data = bytearray(self.get_length_in_bytes())
+        struct.pack_into(">d", data, 0, self.num)
+        file.write(data)
+
+    def get_length_in_bytes(self):
+        return 8
+
+    def __str__(self):
+        return " const(" + str(self.num) + ")"
+
+
+class StringArg(OpArg):
+    def __init__(self, value: str):
+        self.value = value
+
+    def pack(self, file):
+        data = bytearray(self.value, "ascii")
+        file.write(data)
+        file.write(bytes([0]))  # \0 to terminate string
+
+    def get_length_in_bytes(self):
+        return len(self.value) + 1
+
+    def __str__(self):
+        return " str(" + str(self.value) + ")"
+
+
 class MemoryAddressArg(OpArg):
     def __init__(self, addr: int):
         self.addr = addr
 
     def pack(self, file):
-        data = bytearray(1)
+        data = bytearray(self.get_length_in_bytes())
         struct.pack_into(">b", data, 0, self.addr)
         file.write(data)
 
@@ -73,7 +105,7 @@ class ProgramAddressArg(OpArg):
         self.target_block = target_block
 
     def pack(self, file):
-        data = bytearray(4)
+        data = bytearray(self.get_length_in_bytes())
         struct.pack_into(">I", data, 0, self.target_block.bytecode_position)
         file.write(data)
 

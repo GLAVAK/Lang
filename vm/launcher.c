@@ -3,6 +3,7 @@
 //
 
 #include <stdio.h>
+#include <malloc.h>
 
 #include "vm.h"
 
@@ -11,12 +12,12 @@ void vm_print(unsigned char * str)
     printf("%s", str);
 }
 
-int vm_read()
+char * vm_read()
 {
-    int res;
+    char * s = malloc(sizeof(char) * 256);
     printf(">");
-    scanf("%d", &res);
-    return res;
+    scanf("%s", s);
+    return s;
 }
 
 void main()

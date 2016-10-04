@@ -4,7 +4,7 @@ from my_parser.Opcodes import Opcode
 
 
 def append_jump(final_program, target: CodeBlock, type: Opcode):
-    push_addr = BytecodeLine(Opcode.OPCODE_PUSH_VAL)
+    push_addr = BytecodeLine(Opcode.OPCODE_PUSH_VAL_I)
     push_addr.args.append(ProgramAddressArg(target))
     final_program.append(push_addr)
 

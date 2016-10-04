@@ -70,7 +70,8 @@ void launch_test(int number)
 
 void main()
 {
-    int tests_count = 3;
+    // TODO: rework tester, make it compile code and test it, not the bytecode
+    int tests_count = 0;
 
     for (int i = 1; i <= tests_count; ++i)
     {

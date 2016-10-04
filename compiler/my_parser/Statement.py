@@ -1,3 +1,6 @@
+from my_parser.data_type import DataType
+
+
 class Token:
     pass
 
@@ -28,6 +31,21 @@ class TokenInteger(Token):
         self.content = content
 
 
+class TokenFloat(Token):
+    def __init__(self, content: float):
+        self.content = content
+
+
+class TokenBoolean(Token):
+    def __init__(self, content: bool):
+        self.content = content
+
+
+class TokenString(Token):
+    def __init__(self, content: str):
+        self.content = content
+
+
 class TokenIdentifier(Token):
     def __init__(self, content: str):
         self.content = content
@@ -36,10 +54,6 @@ class TokenIdentifier(Token):
 class TokenMacro(Token):
     def __init__(self, content: str):
         self.content = content
-        if content == 'write':
-            self.operands = 1
-        elif content == 'read' or content == 'exit':
-            self.operands = 0
 
     def get_priority(self) -> int:
         return 1000  # should be higher than any operator priority
@@ -49,6 +63,19 @@ class TokenMacro(Token):
             return 1
         elif self.content == 'read' or self.content == 'exit':
             return 0
+
+
+class TokenCast(Token):
+    def __init__(self, content: str):
+        if content == "i":
+            self.content = DataType.integer
+        elif content == "f":
+            self.content = DataType.float
+        elif content == "s":
+            self.content = DataType.string
+
+    def get_priority(self) -> int:
+        return 1000  # should be higher than any operator priority
 
 
 def get_operator_priority(char: str) -> int:
@@ -85,20 +112,45 @@ def is_operator(char: str) -> bool:
     return get_operator_priority(char) != -1
 
 
+def get_cast_function_target_type(char: str) -> DataType:
+    if char == "f":
+        return DataType.float
+    elif char == "i":
+        return DataType.integer
+    elif char == "s":
+        return DataType.string
+    else:
+        return DataType.undefined
+
+
+def is_cast_function(char: str) -> bool:
+    return get_cast_function_target_type(char) != DataType.undefined
+
+
 def is_macro(identifier: str) -> bool:
     return identifier == 'write' or identifier == 'read' or identifier == 'exit'
 
 
 def create_token(string: str) -> Token:
-    try:
-        return TokenInteger(int(string))
-    except ValueError:
-        if is_operator(string):
-            return TokenOperator(string)
-        elif is_macro(string):
-            return TokenMacro(string)
-        else:
-            return TokenIdentifier(string)
+    if string == "true":
+        return TokenBoolean(True)
+    elif string == "false":
+        return TokenBoolean(False)
+    else:
+        try:
+            return TokenInteger(int(string))
+        except ValueError:
+            try:
+                return TokenFloat(float(string))
+            except ValueError:
+                if is_operator(string):
+                    return TokenOperator(string)
+                elif is_macro(string):
+                    return TokenMacro(string)
+                elif is_cast_function(string):
+                    return TokenCast(string)
+                else:
+                    return TokenIdentifier(string)
 
 
 def parse_on_tokens(text):
@@ -106,11 +158,27 @@ def parse_on_tokens(text):
 
     last_token = ""
     tokens = []
-    # TODO: double chars operators (<= etc)
 
     num = 0
+    is_string_literal = False
     while num < len(text):
-        if is_operator(text[num:num+2]):
+        if is_string_literal:
+            if text[num] == '"':
+                is_string_literal = False
+                tokens.append(TokenString(last_token))
+                last_token = ""
+            else:
+                last_token += text[num]
+            num += 1
+
+        elif text[num] == '"':
+            is_string_literal = True
+            if last_token != "":
+                tokens.append(create_token(last_token))
+                last_token = ""
+            num += 1
+
+        elif is_operator(text[num:num+2]):
             if last_token != "":
                 tokens.append(create_token(last_token))
                 last_token = ""

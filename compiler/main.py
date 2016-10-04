@@ -9,8 +9,10 @@ from my_parser.TextToBlocks import text_to_block
 # direction to the next block, it's position in the world, and also parse the text in
 # the block to EvaluationTree using string_to_tree() function. It also fills name_table
 # for us, which contains var's names and their positions in memory
-names_table = {}
-blocks = text_to_block(open("code_examples/fibb.txt"), names_table)
+from my_parser.scope import Scope
+
+scope = Scope()
+blocks = text_to_block(open("code_examples/types.txt"), scope)
 
 # Then connect all the blocks to each other, using their next block direction and
 # position, and save this information in the next_block field
@@ -23,7 +25,7 @@ remove_empty_blocks(blocks)
 # GOTO's and IF's yet)
 for block in blocks:
     if isinstance(block, CodeBlockCondition) or isinstance(block, CodeBlockStatement):
-        block.bytecode = block.evaluation_tree.get_byte_code(names_table)
+        block.bytecode = block.evaluation_tree.get_byte_code(scope)
 
 # here goes optimizations that can change bytecode length
 

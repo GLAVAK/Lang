@@ -20,31 +20,5 @@ Here is the example of counting 10 fibbonachi numbers:
 Statements are in square brackets, arrow (<, >, v, ^) at the right or left of it defines the control flow direction. Just arrows redirects the flow. And conditions are in curly brackets, with arrows on both sides, if the statement inside is true flow goes right, otherwise it goes left
 You can assign only integer numbers(yet) to the vars, by just assigning to them
 
-## Supported macros and operators
-
-### Math
-
-| Operator | Operands | Returns | Description |
-| --- | --- | --- | --- |
-| + | 2 numbers | Result | Addition |
-| - | 2 numbers | Result | Subtraction |
-| * | 2 numbers | Result | Multiplication |
-| / | 2 numbers | Result | Division |
-| - | 1 numbers | Result | Invert number |
-| = | Varname and number | Number for chaining | Assignment |
-| > | 2 numbers | 1 if true, 0 otherwise | Greater |
-| < | 2 numbers | 1 if true, 0 otherwise | Less |
-| >= | 2 numbers | 1 if true, 0 otherwise | Greater or equal |
-| <= | 2 numbers | 1 if true, 0 otherwise | Less or equal |
-| ! | 1 numbers | 1 if numer is 0, 1 otherwise | Logical not |
-
-### Macros
-
-| Macro | Operands | Description |
-| --- | --- | --- |
-| write(a) | Number | Writes to console |
-| read() | No | Reads from console |
-| exit() | No | Stops the program. Must be at the end |
-
 ## VM, bytecode and realization details
 For planned features support (maybe I'll be able to add some OOP and GC), and rather just because I want to, this gets compiled not to real machine code, but to bytecode. It's similar to Java bytecode, for stack virtual machine. Specs of bytecode is in `docs` folder. VM are written in C (in a very bad perfomance way yet), and the compiler on python3

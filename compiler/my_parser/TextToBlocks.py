@@ -1,6 +1,7 @@
 from my_parser.CodeBlock import CodeBlockEmpty, CodeBlockStatement, CodeBlockCondition, MovingDirection
 from my_parser.StringToTree import string_to_tree
 from my_parser.exceptions.compiler_error import CompilerError
+from my_parser.scope import Scope
 
 
 def is_direction_char(char: str) -> bool:
@@ -21,11 +22,11 @@ def char_to_direction(char: str) -> MovingDirection:
 
 
 # TODO: too long function, a bit of refactoring would be nice
-def text_to_block(file, name_table):
+def text_to_block(file, scope: Scope):
     """
     Parses all blocks from code file, without linking them to each other
     :param file: file from where to read code
-    :param name_table: empty dictionary, which will be filled with var's names and their
+    :param scope: scope, which will be filled with var's names and their
                        positions in memory
     :return: list of blocks in code
     """
@@ -69,9 +70,9 @@ def text_to_block(file, name_table):
                 current_block.width += len(block_content)
 
                 if char == ']' and isinstance(current_block, CodeBlockStatement):
-                    current_block.evaluation_tree = string_to_tree(block_content, name_table, current_block)
+                    current_block.evaluation_tree = string_to_tree(block_content, scope, current_block)
                 elif char == '}' and isinstance(current_block, CodeBlockCondition):
-                    current_block.evaluation_tree = string_to_tree(block_content, name_table, current_block)
+                    current_block.evaluation_tree = string_to_tree(block_content, scope, current_block)
 
                 blocks.append(current_block)
                 previous_block = current_block
