@@ -1,5 +1,6 @@
 from my_parser.BytecodeLine import BytecodeLine, ProgramAddressArg
 from my_parser.CodeBlock import CodeBlockCondition, CodeBlockStatement, CodeBlock
+from my_parser.EvaluationTree import NodeMacro
 from my_parser.Opcodes import Opcode
 
 
@@ -27,6 +28,12 @@ def compile_blocks(blocks):
             block.bytecode_position += bytecode_line.get_length_in_bytes()
 
         final_program.extend(block.bytecode)
+
+        if isinstance(block, CodeBlockStatement) and \
+                isinstance(block.evaluation_tree, NodeMacro) and \
+                block.evaluation_tree.macro_name == "exit":
+            # It's exit block, no further jumps required
+            continue
 
         if isinstance(block, CodeBlockStatement):
             if block_num < len(blocks) - 1 and block.next_block == blocks[block_num + 1]:

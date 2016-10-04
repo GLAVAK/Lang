@@ -1,6 +1,8 @@
 from enum import Enum
 
 from my_parser.CodeBlock import CodeBlockStatement, CodeBlockCondition
+from my_parser.exceptions.compiler_warning import CompilerWarning
+from my_parser.scope import Scope
 
 
 class BlockColor(Enum):
@@ -24,7 +26,7 @@ def sort_blocks_for_block(block, stack):
     block.color = BlockColor.Black
 
 
-def sort_blocks(blocks):
+def sort_blocks(blocks, scope: Scope):
     """
     Topologically sorts blocks in given list, removing unreachable ones, and sorting reachable
     so that next block goes, when possible, right after previous, to minimize GOTO's around the
@@ -39,6 +41,11 @@ def sort_blocks(blocks):
     # Start with only 1st block, because we don't care about blocks unreachable from entry
     # point, which will be deleted from program
     sort_blocks_for_block(blocks[0], stack)
+
+    for block in blocks:
+        if block not in stack:
+            scope.warnings.append(CompilerWarning(block.line, block.column,
+                                                  "Unreachable block found"))
 
     # Clear blocks, as all reachable blocks is in the stack
     blocks[:] = []

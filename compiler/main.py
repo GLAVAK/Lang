@@ -1,3 +1,4 @@
+from my_parser.CheckErrors import check_errors
 from my_parser.CodeBlock import CodeBlockCondition, CodeBlockStatement
 from my_parser.CompileBlocks import compile_blocks
 from my_parser.LinkBlocks import link_blocks
@@ -12,11 +13,13 @@ from my_parser.TextToBlocks import text_to_block
 from my_parser.scope import Scope
 
 scope = Scope()
-blocks = text_to_block(open("code_examples/strings.txt"), scope)
+blocks = text_to_block(open("code_examples/blocksIf.txt"), scope)
 
 # Then connect all the blocks to each other, using their next block direction and
 # position, and save this information in the next_block field
 link_blocks(blocks)
+
+check_errors(blocks, scope)
 
 # Remove empty blocks, keeping connections correct
 remove_empty_blocks(blocks)
@@ -29,7 +32,7 @@ for block in blocks:
 
 # here goes optimizations that can change bytecode length
 
-sort_blocks(blocks)
+sort_blocks(blocks, scope)
 
 # Put all blocks to the final program, and define their position in there. GOTO's are put
 # in the end of each block, but with auto addresses (ProgramAddressArg which points to the
@@ -49,4 +52,9 @@ for bytecode_line in final_program:
 
 # TODO: figure out how to call files, functions and classes to avoid import conflicts
 
-print("Compilation successful")
+if len(scope.warnings) > 0:
+    print("Warnings:")
+    for warning in scope.warnings:
+        print(warning)
+else:
+    print("Compilation successful with no warnings")

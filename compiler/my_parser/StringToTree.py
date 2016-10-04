@@ -11,25 +11,28 @@ def rpn_to_tree(rpn, scope, code_block: CodeBlock):
     stack = []
 
     for token in rpn:
+        line = code_block.line
+        column = code_block.column + 1 + token.column
+
         if isinstance(token, TokenInteger):
-            stack.append(NodeInteger(token.content))
+            stack.append(NodeInteger(token.content, line, column))
         elif isinstance(token, TokenFloat):
-            stack.append(NodeFloat(token.content))
+            stack.append(NodeFloat(token.content, line, column))
         elif isinstance(token, TokenBoolean):
-            stack.append(NodeBoolean(token.content))
+            stack.append(NodeBoolean(token.content, line, column))
         elif isinstance(token, TokenString):
-            stack.append(NodeString(token.content))
+            stack.append(NodeString(token.content, line, column))
         elif isinstance(token, TokenIdentifier):
-            stack.append(NodeVariable(token.content))
+            stack.append(NodeVariable(token.content, line, column))
             scope.add_variable(token.content)
         elif isinstance(token, TokenCast):
-            node = NodeCast(token.content)
+            node = NodeCast(token.content, line, column)
             if len(stack) < 1:
                 raise CompilerError(code_block.line, code_block.column + 1, "Cast requires argument")
             node.left = stack.pop()
             stack.append(node)
         elif isinstance(token, TokenMacro):
-            node = NodeMacro(token.content)
+            node = NodeMacro(token.content, line, column)
             if token.get_arguments_count() >= 1:
                 if len(stack) < 1:
                     raise CompilerError(code_block.line, code_block.column + 1, "Macro requires more arguments")
@@ -37,9 +40,9 @@ def rpn_to_tree(rpn, scope, code_block: CodeBlock):
             stack.append(node)
         elif isinstance(token, TokenOperator):
             if token.content == "=":
-                node = NodeAssignment()
+                node = NodeAssignment(line, column)
             else:
-                node = NodeOperator(token.content)
+                node = NodeOperator(token.content, line, column)
             if len(stack) < token.get_arguments_count():
                 raise CompilerError(code_block.line, code_block.column + 1, "Error in expression")
             if token.get_arguments_count() >= 2:

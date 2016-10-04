@@ -60,10 +60,10 @@ def link_blocks(blocks):
     :return:
     """
     for block in blocks:
-            if isinstance(block, CodeBlockStatement) or isinstance(block, CodeBlockEmpty):
-                block.next_block = find_closest_block(block.line, block.get_arrow_column(), block.direction, blocks)
-            else:
-                block.false_block =\
-                    find_closest_block(block.line, block.column, block.false_direction, blocks)
-                block.true_block =\
-                    find_closest_block(block.line, block.get_right() - 1, block.true_direction, blocks)
+        if isinstance(block, CodeBlockStatement) or isinstance(block, CodeBlockEmpty):
+            block.next_block = find_closest_block(block.line, block.get_arrow_column(), block.direction, blocks)
+        else:
+            block.false_block = \
+                find_closest_block(block.line, block.column, block.false_direction, blocks)
+            block.true_block = \
+                find_closest_block(block.line, block.get_right() - 1, block.true_direction, blocks)

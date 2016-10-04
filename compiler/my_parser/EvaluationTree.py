@@ -2,14 +2,17 @@ from my_parser.BytecodeLine import BytecodeLine, FloatArg, MemoryAddressArg, Int
 from my_parser.Opcodes import Opcode
 from my_parser.data_type import DataType
 from my_parser.exceptions.compiler_error import CompilerError
+from my_parser.exceptions.compiler_warning import CompilerWarning
 from my_parser.exceptions.internal_error import InternalError
 from my_parser.scope import Scope
 
 
 class TreeNode:
-    def __init__(self):
+    def __init__(self, line, column):
         self.left = None
         self.right = None
+        self.line = line
+        self.column = column
 
     def get_byte_code(self, scope: Scope):
         """
@@ -29,8 +32,8 @@ class TreeNode:
 
 
 class NodeOperator(TreeNode):
-    def __init__(self, operator: str):
-        super().__init__()
+    def __init__(self, operator: str, line, column):
+        super().__init__(line, column)
         self.data_type = DataType.undefined
         self.operator = operator
 
@@ -147,16 +150,17 @@ class NodeOperator(TreeNode):
         return expression_to_assign
 
     def get_return_type(self, scope: Scope):
+        left_type = self.left.get_return_type(scope)
         if self.right is not None:
             # Two operands
-            if self.right.get_return_type(scope) == self.left.get_return_type(scope):
-                if self.left.get_return_type(scope) is DataType.integer or self.left.get_return_type(
-                        scope) is DataType.float:
+            right_type = self.right.get_return_type(scope)
+            if right_type == left_type:
+                if left_type is DataType.integer or left_type is DataType.float:
                     if self.operator == '+' or \
                                     self.operator == '-' or \
                                     self.operator == '*' or \
                                     self.operator == '/':
-                        return self.right.get_return_type(scope)
+                        return right_type
                     elif self.operator == '==' or \
                                     self.operator == '!=' or \
                                     self.operator == '>' or \
@@ -165,8 +169,9 @@ class NodeOperator(TreeNode):
                                     self.operator == '<=':
                         return DataType.boolean
                     else:
-                        raise CompilerError(0, 0, "Invalid operands types")
-                elif self.left.get_return_type(scope) is DataType.string:
+                        raise CompilerError(self.line, self.column, "Invalid operands types (" +
+                                            left_type.name + " and " + right_type.name + ")")
+                elif left_type is DataType.string:
                     if self.operator == '+':
                         return DataType.string
                     elif self.operator == '==' or \
@@ -177,35 +182,40 @@ class NodeOperator(TreeNode):
                                     self.operator == '<=':
                         return DataType.boolean
                     else:
-                        raise CompilerError(0, 0, "Invalid operands types")
-                elif self.left.get_return_type(scope) is DataType.boolean:
+                        raise CompilerError(self.line, self.column, "Invalid operands types (" +
+                                            left_type.name + " and " + right_type.name + ")")
+                elif left_type is DataType.boolean:
                     if self.operator == '|' or \
                                     self.operator == '&':
                         return DataType.boolean
                     else:
-                        raise CompilerError(0, 0, "Invalid operands types")
+                        raise CompilerError(self.line, self.column, "Invalid operands types (" +
+                                            left_type.name + " and " + right_type.name + ")")
                 else:
-                    raise CompilerError(0, 0, "Invalid operands types")
-            elif self.left.get_return_type(scope) is DataType.string and self.right.get_return_type(
-                        scope) is DataType.integer and self.operator == '*':
+                    raise CompilerError(self.line, self.column, "Invalid operands types (" +
+                                        left_type.name + " and " + right_type.name + ")")
+            elif left_type is DataType.string and right_type is DataType.integer and self.operator == '*':
                 return DataType.string
             else:
-                # TODO: error line and col
-                raise CompilerError(0, 0, "Operation on different types, explicit conversion required")
+                raise CompilerError(self.line, self.column,
+                                    "Operation '" + self.operator + "' on different types (" +
+                                    left_type.name + " and " + right_type.name + "), explicit conversion required")
         else:
-            if self.operator == '!' and self.left.get_return_type(scope) is DataType.boolean:
+            if self.operator == '!' and left_type is DataType.boolean:
                 return DataType.boolean
             elif self.operator == '#' and (
-                            self.left.get_return_type(scope) is DataType.integer or
-                            self.left.get_return_type(scope) is DataType.float):
-                return self.left.get_return_type(scope)
+                            left_type is DataType.integer or
+                            left_type is DataType.float):
+                return left_type
             else:
-                raise CompilerError(0, 0, "Invalid operand type")
+                raise CompilerError(self.line, self.column,
+                                    "Invalid operand type (" + left_type.name +
+                                    ") for operation '" + self.operator + "'")
 
 
 class NodeInteger(TreeNode):
-    def __init__(self, value: int):
-        super().__init__()
+    def __init__(self, value: int, line, column):
+        super().__init__(line, column)
         self.value = value
 
     def get_byte_code(self, scope: Scope):
@@ -218,8 +228,8 @@ class NodeInteger(TreeNode):
 
 
 class NodeFloat(TreeNode):
-    def __init__(self, value: float):
-        super().__init__()
+    def __init__(self, value: float, line, column):
+        super().__init__(line, column)
         self.value = value
 
     def get_byte_code(self, scope):
@@ -232,8 +242,8 @@ class NodeFloat(TreeNode):
 
 
 class NodeBoolean(TreeNode):
-    def __init__(self, value: bool):
-        super().__init__()
+    def __init__(self, value: bool, line, column):
+        super().__init__(line, column)
         self.value = value
 
     def get_byte_code(self, scope):
@@ -249,8 +259,8 @@ class NodeBoolean(TreeNode):
 
 
 class NodeString(TreeNode):
-    def __init__(self, value: str):
-        super().__init__()
+    def __init__(self, value: str, line, column):
+        super().__init__(line, column)
         self.value = value
 
     def get_byte_code(self, scope: Scope):
@@ -263,8 +273,8 @@ class NodeString(TreeNode):
 
 
 class NodeVariable(TreeNode):
-    def __init__(self, var_name: str):
-        super().__init__()
+    def __init__(self, var_name: str, line, column):
+        super().__init__(line, column)
         self.var_name = var_name
 
     def get_byte_code(self, scope: Scope):
@@ -277,8 +287,8 @@ class NodeVariable(TreeNode):
 
 
 class NodeMacro(TreeNode):
-    def __init__(self, macro_name: str):
-        super().__init__()
+    def __init__(self, macro_name: str, line, column):
+        super().__init__(line, column)
         self.macro_name = macro_name
 
     def get_byte_code(self, scope: Scope):
@@ -309,8 +319,8 @@ class NodeMacro(TreeNode):
 
 
 class NodeCast(TreeNode):
-    def __init__(self, target_type: DataType):
-        super().__init__()
+    def __init__(self, target_type: DataType, line, column):
+        super().__init__(line, column)
         self.target_type = target_type
 
     def get_cast_opcode(self, scope: Scope) -> Opcode:
@@ -345,8 +355,11 @@ class NodeCast(TreeNode):
         opcode = self.get_cast_opcode(scope)
 
         if opcode is not None:
-            # TODO: leave warning (redutand cast)
             expression_to_assign.append(BytecodeLine(opcode))
+        else:
+            scope.warnings.append(CompilerWarning(self.line, self.column - 1,
+                                                  "Redundant cast (" + self.target_type.name + " casted to " +
+                                                  self.target_type.name + ")"))
 
         return expression_to_assign
 
@@ -355,8 +368,8 @@ class NodeCast(TreeNode):
 
 
 class NodeAssignment(TreeNode):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, line, column):
+        super().__init__(line, column)
         self.data_type = DataType.undefined
 
     def get_byte_code(self, scope: Scope):
@@ -371,16 +384,18 @@ class NodeAssignment(TreeNode):
 
     def build(self, scope: Scope):
         if not isinstance(self.left, NodeVariable):
-            raise CompilerError(0, 0, "You can only assign to variables")  # TODO: error line and col
+            raise CompilerError(self.line, self.column, "Not a variable name at the left of assignment")
 
         var_data_type = scope.names_table[self.left.var_name].type
+        value_type = self.right.get_return_type(scope)
         if var_data_type == DataType.undefined:
-            self.data_type = self.right.get_return_type(scope)
-            scope.names_table[self.left.var_name].type = self.right.get_return_type(scope)
-        elif var_data_type == self.right.get_return_type(scope):
+            self.data_type = value_type
+            scope.names_table[self.left.var_name].type = value_type
+        elif var_data_type == value_type:
             self.data_type = var_data_type
         else:
-            raise CompilerError(0, 0, "You can't change variable type")  # TODO: error line and col
+            raise CompilerError(self.line, self.column, "Attempt to change variable '" + self.left.var_name +
+                                "' type from " + var_data_type.name + " to " + value_type.name)
 
     def get_return_type(self, scope: Scope):
         return self.right.get_return_type(scope)

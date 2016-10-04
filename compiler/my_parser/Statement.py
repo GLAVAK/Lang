@@ -2,11 +2,13 @@ from my_parser.data_type import DataType
 
 
 class Token:
-    pass
+    def __init__(self, column: int):
+        self.column = column  # To show nice compiler errors messages
 
 
 class TokenOperator(Token):
-    def __init__(self, content: str):
+    def __init__(self, content: str, column: int):
+        super().__init__(column)
         self.content = content
 
     def get_priority(self) -> int:
@@ -27,32 +29,38 @@ class TokenOperator(Token):
 
 
 class TokenInteger(Token):
-    def __init__(self, content: int):
+    def __init__(self, content: int, column: int):
+        super().__init__(column)
         self.content = content
 
 
 class TokenFloat(Token):
-    def __init__(self, content: float):
+    def __init__(self, content: float, column: int):
+        super().__init__(column)
         self.content = content
 
 
 class TokenBoolean(Token):
-    def __init__(self, content: bool):
+    def __init__(self, content: bool, column: int):
+        super().__init__(column)
         self.content = content
 
 
 class TokenString(Token):
-    def __init__(self, content: str):
+    def __init__(self, content: str, column: int):
+        super().__init__(column)
         self.content = content
 
 
 class TokenIdentifier(Token):
-    def __init__(self, content: str):
+    def __init__(self, content: str, column: int):
+        super().__init__(column)
         self.content = content
 
 
 class TokenMacro(Token):
-    def __init__(self, content: str):
+    def __init__(self, content: str, column: int):
+        super().__init__(column)
         self.content = content
 
     def get_priority(self) -> int:
@@ -66,7 +74,8 @@ class TokenMacro(Token):
 
 
 class TokenCast(Token):
-    def __init__(self, content: str):
+    def __init__(self, content: str, column: int):
+        super().__init__(column)
         if content == "i":
             self.content = DataType.integer
         elif content == "f":
@@ -91,8 +100,8 @@ def get_operator_priority(char: str) -> int:
         return 10
     elif char == '+' or char == '-':
         return 8
-    elif char == '>' or char == '<'\
-            or char == '>=' or char == '<='\
+    elif char == '>' or char == '<' \
+            or char == '>=' or char == '<=' \
             or char == '==' or char == '!=':
         return 6
     elif char == '&' or char == '|':
@@ -133,26 +142,26 @@ def is_macro(identifier: str) -> bool:
     return identifier == 'write' or identifier == 'read' or identifier == 'exit'
 
 
-def create_token(string: str) -> Token:
+def create_token(string: str, column: int) -> Token:
     if string == "true":
-        return TokenBoolean(True)
+        return TokenBoolean(True, column)
     elif string == "false":
-        return TokenBoolean(False)
+        return TokenBoolean(False, column)
     else:
         try:
-            return TokenInteger(int(string))
+            return TokenInteger(int(string), column)
         except ValueError:
             try:
-                return TokenFloat(float(string))
+                return TokenFloat(float(string), column)
             except ValueError:
                 if is_operator(string):
-                    return TokenOperator(string)
+                    return TokenOperator(string, column)
                 elif is_macro(string):
-                    return TokenMacro(string)
+                    return TokenMacro(string, column)
                 elif is_cast_function(string):
-                    return TokenCast(string)
+                    return TokenCast(string, column)
                 else:
-                    return TokenIdentifier(string)
+                    return TokenIdentifier(string, column)
 
 
 def parse_on_tokens(text):
@@ -167,7 +176,7 @@ def parse_on_tokens(text):
         if is_string_literal:
             if text[num] == '"':
                 is_string_literal = False
-                tokens.append(TokenString(last_token))
+                tokens.append(TokenString(last_token, num))
                 last_token = ""
             else:
                 last_token += text[num]
@@ -176,31 +185,31 @@ def parse_on_tokens(text):
         elif text[num] == '"':
             is_string_literal = True
             if last_token != "":
-                tokens.append(create_token(last_token))
+                tokens.append(create_token(last_token, num))
                 last_token = ""
             num += 1
 
-        elif is_operator(text[num:num+2]):
+        elif is_operator(text[num:num + 2]):
             if last_token != "":
-                tokens.append(create_token(last_token))
+                tokens.append(create_token(last_token, num))
                 last_token = ""
-            tokens.append(create_token(text[num:num+2]))
+            tokens.append(create_token(text[num:num + 2], num))
             num += 2
 
         elif is_operator(text[num]):
             if last_token != "":
-                tokens.append(create_token(last_token))
+                tokens.append(create_token(last_token, num))
                 last_token = ""
             if text[num] == '-' and len(tokens) > 0 and isinstance(tokens[-1], TokenOperator):
                 # unary minus
-                tokens.append(create_token("#"))
+                tokens.append(create_token("#", num))
             else:
-                tokens.append(create_token(text[num]))
+                tokens.append(create_token(text[num], num))
             num += 1
 
         elif text[num] == " " or text[num] == "\t":
             if last_token != "":
-                tokens.append(create_token(last_token))
+                tokens.append(create_token(last_token, num))
                 last_token = ""
             num += 1
 
@@ -209,7 +218,7 @@ def parse_on_tokens(text):
             num += 1
 
     if last_token != "":
-        tokens.append(create_token(last_token))
+        tokens.append(create_token(last_token, num))
 
     return tokens
 

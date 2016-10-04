@@ -4,6 +4,7 @@ from my_parser.variable import Variable
 class Scope:
     def __init__(self):
         self.names_table = {}
+        self.warnings = []
 
     def add_variable(self, name):
         if name not in self.names_table:
