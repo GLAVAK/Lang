@@ -1,0 +1,9 @@
+v[a = "ab"]
+v[write(a * 4)]
+
+v[a = "asd"]
+v[b = "dsa"]
+v[write(a == b)]
+v[b = "as"+"d"]
+v[write(a == b)]
+v[exit()]

@@ -87,6 +87,37 @@ int start_vm(struct vm_settings settings)
                 stack[stackSize - 1].data.i = -stack[stackSize - 1].data.i;
                 break;
 
+            case OPCODE_EQUALS_I:
+                assert(stackSize >= 2);
+                stack[stackSize - 2].data.b = stack[stackSize - 2].data.i == stack[stackSize - 1].data.i;
+                stackSize--;
+                break;
+            case OPCODE_NOT_EQUALS_I:
+                assert(stackSize >= 2);
+                stack[stackSize - 2].data.b = stack[stackSize - 2].data.i != stack[stackSize - 1].data.i;
+                stackSize--;
+                break;
+            case OPCODE_GREATER_I:
+                assert(stackSize >= 2);
+                stack[stackSize - 2].data.b = stack[stackSize - 2].data.i > stack[stackSize - 1].data.i;
+                stackSize--;
+                break;
+            case OPCODE_LESS_I:
+                assert(stackSize >= 2);
+                stack[stackSize - 2].data.b = stack[stackSize - 2].data.i < stack[stackSize - 1].data.i;
+                stackSize--;
+                break;
+            case OPCODE_GREATER_EQUAL_I:
+                assert(stackSize >= 2);
+                stack[stackSize - 2].data.b = stack[stackSize - 2].data.i >= stack[stackSize - 1].data.i;
+                stackSize--;
+                break;
+            case OPCODE_LESS_EQUAL_I:
+                assert(stackSize >= 2);
+                stack[stackSize - 2].data.b = stack[stackSize - 2].data.i <= stack[stackSize - 1].data.i;
+                stackSize--;
+                break;
+
             case OPCODE_ADD_F:
                 assert(stackSize >= 2);
                 stack[stackSize - 2].data.f = stack[stackSize - 2].data.f + stack[stackSize - 1].data.f;
@@ -112,38 +143,6 @@ int start_vm(struct vm_settings settings)
                 stack[stackSize - 1].data.f = -stack[stackSize - 1].data.f;
                 break;
 
-            case OPCODE_EQUALS_I:
-                assert(stackSize >= 2);
-                stack[stackSize - 2].data.b = stack[stackSize - 2].data.i == stack[stackSize - 1].data.i;
-                stackSize--;
-                break;
-            case OPCODE_NOT_EQUALS_I:
-                assert(stackSize >= 2);
-                stack[stackSize - 2].data.b = stack[stackSize - 2].data.i != stack[stackSize - 1].data.i;
-                stackSize--;
-                break;
-
-            case OPCODE_GREATER_I:
-                assert(stackSize >= 2);
-                stack[stackSize - 2].data.b = stack[stackSize - 2].data.i > stack[stackSize - 1].data.i;
-                stackSize--;
-                break;
-            case OPCODE_LESS_I:
-                assert(stackSize >= 2);
-                stack[stackSize - 2].data.b = stack[stackSize - 2].data.i < stack[stackSize - 1].data.i;
-                stackSize--;
-                break;
-            case OPCODE_GREATER_EQUAL_I:
-                assert(stackSize >= 2);
-                stack[stackSize - 2].data.b = stack[stackSize - 2].data.i >= stack[stackSize - 1].data.i;
-                stackSize--;
-                break;
-            case OPCODE_LESS_EQUAL_I:
-                assert(stackSize >= 2);
-                stack[stackSize - 2].data.b = stack[stackSize - 2].data.i <= stack[stackSize - 1].data.i;
-                stackSize--;
-                break;
-
             case OPCODE_EQUALS_F:
                 assert(stackSize >= 2);
                 stack[stackSize - 2].data.b = stack[stackSize - 2].data.f == stack[stackSize - 1].data.f;
@@ -154,7 +153,6 @@ int start_vm(struct vm_settings settings)
                 stack[stackSize - 2].data.b = stack[stackSize - 2].data.f != stack[stackSize - 1].data.f;
                 stackSize--;
                 break;
-
             case OPCODE_GREATER_F:
                 assert(stackSize >= 2);
                 stack[stackSize - 2].data.b = stack[stackSize - 2].data.f > stack[stackSize - 1].data.f;
@@ -173,6 +171,69 @@ int start_vm(struct vm_settings settings)
             case OPCODE_LESS_EQUAL_F:
                 assert(stackSize >= 2);
                 stack[stackSize - 2].data.b = stack[stackSize - 2].data.f <= stack[stackSize - 1].data.f;
+                stackSize--;
+                break;
+
+            case OPCODE_CONCAT_S:
+                assert(stackSize >= 2);
+
+                // Save first operand from stack:
+                char * first_operand = stack[stackSize - 2].data.s;
+
+                // Create new string, copy first_operand there and append second operand from stack:
+                stack[stackSize - 2] = create_empty_string();
+                strcpy(stack[stackSize - 2].data.s, first_operand);
+                strcat(stack[stackSize - 2].data.s, stack[stackSize - 1].data.s);
+
+                stackSize--;
+                break;
+
+            case OPCODE_REPEAT_S:
+                assert(stackSize >= 2);
+
+                // Save first operand from stack:
+                char * str = stack[stackSize - 2].data.s;
+                int count = stack[stackSize - 1].data.i;
+
+                // Create new string, copy first_operand there and append second operand from stack:
+                stack[stackSize - 2] = create_empty_string();
+                stack[stackSize - 2].data.s[0] = '\0';
+                for (int j = 0; j < count; ++j)
+                {
+                    strcat(stack[stackSize - 2].data.s, str);
+                }
+
+                stackSize--;
+                break;
+
+            case OPCODE_EQUALS_S:
+                assert(stackSize >= 2);
+                stack[stackSize - 2].data.b = strcmp(stack[stackSize - 2].data.s, stack[stackSize - 1].data.s) == 0;
+                stackSize--;
+                break;
+            case OPCODE_NOT_EQUALS_S:
+                assert(stackSize >= 2);
+                stack[stackSize - 2].data.b = strcmp(stack[stackSize - 2].data.s, stack[stackSize - 1].data.s) != 0;
+                stackSize--;
+                break;
+            case OPCODE_GREATER_S:
+                assert(stackSize >= 2);
+                stack[stackSize - 2].data.b = strcmp(stack[stackSize - 2].data.s, stack[stackSize - 1].data.s) > 0;
+                stackSize--;
+                break;
+            case OPCODE_LESS_S:
+                assert(stackSize >= 2);
+                stack[stackSize - 2].data.b = strcmp(stack[stackSize - 2].data.s, stack[stackSize - 1].data.s) < 0;
+                stackSize--;
+                break;
+            case OPCODE_GREATER_EQUAL_S:
+                assert(stackSize >= 2);
+                stack[stackSize - 2].data.b = strcmp(stack[stackSize - 2].data.s, stack[stackSize - 1].data.s) >= 0;
+                stackSize--;
+                break;
+            case OPCODE_LESS_EQUAL_S:
+                assert(stackSize >= 2);
+                stack[stackSize - 2].data.b = strcmp(stack[stackSize - 2].data.s, stack[stackSize - 1].data.s) <= 0;
                 stackSize--;
                 break;
 

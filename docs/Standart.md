@@ -12,7 +12,7 @@ Abstract machine starts at the top-left corner of you programm, pointing right. 
 
 ## Conditions
 
- After the abstract machine reaches this block, it evaluates statement inside, which has to have Boolean type (b). If the statement is true goes to direction set by direction symbol on the right, and if it is false on the left.
+After the abstract machine reaches this block, it evaluates statement inside, which has to have Boolean type (b). If the statement is true goes to direction set by direction symbol on the right, and if it is false on the left.
 
 ## Variables
 
@@ -22,7 +22,7 @@ Variables can be local for current layer, or global for all programmm layers. Va
 
 ## Types:
 
-Every variable has it's predefined type, you cant write `[a = 42]>[a = 5.2]`. To declare floating point constant add a decimal point, `[a = 42.]`. Implicit conversion of all types forbiden. It must be explicitly converted to the same type to perform operations (write `<{42. > 5.2}>` instead of `<{42 > 5.2}>`). Explicit conversion is `i()`, `s()`, and `f()`. There are no conversion functions from or to boolean (~~`b()`~~)
+Every variable has it's predefined type, you can't write `[a = 42]>[a = 5.2]`. To declare floating point constant add a decimal point, `[a = 42.]`. Implicit conversion of all types forbidden. Variables must be explicitly converted to the same type to perform operations (write `<{42. > 5.2}>` instead of `<{42 > 5.2}>`). Explicit conversion is `i()`, `s()`, and `f()`. There are no conversion functions from or to boolean (~~`b()`~~)
 
 | Shortcut | Type name | Constants format     |
 | -------- | --------- | -------------------- |
@@ -33,32 +33,32 @@ Every variable has it's predefined type, you cant write `[a = 42]>[a = 5.2]`. To
 
 ## Statements
 
-Statements always returns a value. They can contain vars, constants, calls to macros and operators. Currently supported operators:
+Statements always return a value. They can contain vars, constants, calls to macros and operators. Currently supported operators:
 
 _Note: in this section "n" means i or f, and "x" means any type_
 
-| Operator | Operands  | Returns | Description      |
-| -------- | --------- | ------- | ---------------- |
-| +        | n + n     | n       | Addition         |
-| -        | n - n     | n       | Subtraction      |
-| *        | n * n     | n       | Multiplication   |
-| /        | n / n     | n       | Division         |
-| -        | n         | n       | Invert number    |
-| =        | Varname = x | x     | Assignment       |
-| >        | n > n     | b       | Greater          |
-| <        | n < n     | b       | Less             |
-| >=       | n >= n    | b       | Greater or equal |
-| <=       | n <= n    | b       | Less or equal    |
-| &        | b & b     | b       | Logical and      |
-| |        | b | b     | b       | Logical or       |
-| !        | b         | b       | Logical not      |
+| Operator | Operands  | Returns | Description
+| -------- | --------- | ------- | ---
+| +        | n + n     | n       | Addition
+| -        | n - n     | n       | Subtraction
+| *        | n * n     | n       | Multiplication
+| /        | n / n     | n       | Division
+| -        | n         | n       | Invert number
+| =        | Varname = x | x     | Assignment
+| >        | n > n     | b       | Greater
+| <        | n < n     | b       | Less
+| >=       | n >= n    | b       | Greater or equal
+| <=       | n <= n    | b       | Less or equal
+| &        | b & b     | b       | Logical and
+| |        | b | b     | b       | Logical or
+| !        | b         | b       | Logical not
 
 ## Macros
 
 Macros is a special functions to interact vith VM. Currently supported macros:
 
-| Macro     | Operands | Returns        | Description |
-| --------- | -------- | -------------- | --- |
-| write(a)  | Any type | a              | Writes to console |
-| read()    | No       | Read value     | Reads from console |
-| exit()    | No       | Doesn't matter | Stops the program. Must be at the end |
+| Macro     | Operands | Returns        | Description
+| --------- | -------- | -------------- | ---
+| write(a)  | Any type | a              | Writes to console
+| read()    | No       | Read value     | Reads from console
+| exit()    | No       | Doesn't matter | Stops the program. Must be at the end

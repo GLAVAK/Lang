@@ -1,4 +1,4 @@
-             v[count = 10]
+             v[count = i(read())]
              v[a1 = 0]
              v[a2 = 1]
              v                      <

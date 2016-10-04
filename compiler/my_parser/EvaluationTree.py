@@ -40,6 +40,8 @@ class NodeOperator(TreeNode):
                 return Opcode.OPCODE_ADD_I
             elif operands_type is DataType.float:
                 return Opcode.OPCODE_ADD_F
+            elif operands_type is DataType.string:
+                return Opcode.OPCODE_CONCAT_S
 
         elif self.operator == '-':
             if operands_type is DataType.integer:
@@ -52,6 +54,8 @@ class NodeOperator(TreeNode):
                 return Opcode.OPCODE_MUL_I
             elif operands_type is DataType.float:
                 return Opcode.OPCODE_MUL_F
+            elif operands_type is DataType.string:  # Actually only left op is string there
+                return Opcode.OPCODE_REPEAT_S
 
         elif self.operator == '/':
             if operands_type is DataType.integer:
@@ -70,36 +74,48 @@ class NodeOperator(TreeNode):
                 return Opcode.OPCODE_EQUALS_I
             elif operands_type is DataType.float:
                 return Opcode.OPCODE_EQUALS_F
+            elif operands_type is DataType.string:
+                return Opcode.OPCODE_EQUALS_S
 
         elif self.operator == '!=':
             if operands_type is DataType.integer:
                 return Opcode.OPCODE_NOT_EQUALS_I
             elif operands_type is DataType.float:
                 return Opcode.OPCODE_NOT_EQUALS_F
+            elif operands_type is DataType.string:
+                return Opcode.OPCODE_NOT_EQUALS_S
 
         elif self.operator == '>':
             if operands_type is DataType.integer:
                 return Opcode.OPCODE_GREATER_I
             elif operands_type is DataType.float:
                 return Opcode.OPCODE_GREATER_F
+            elif operands_type is DataType.string:
+                return Opcode.OPCODE_GREATER_S
 
         elif self.operator == '<':
             if operands_type is DataType.integer:
                 return Opcode.OPCODE_LESS_I
             elif operands_type is DataType.float:
                 return Opcode.OPCODE_LESS_F
+            elif operands_type is DataType.string:
+                return Opcode.OPCODE_LESS_S
 
         elif self.operator == '>=':
             if operands_type is DataType.integer:
                 return Opcode.OPCODE_GREATER_EQUAL_I
             elif operands_type is DataType.float:
                 return Opcode.OPCODE_GREATER_EQUAL_F
+            elif operands_type is DataType.string:
+                return Opcode.OPCODE_GREATER_EQUAL_S
 
         elif self.operator == '<=':
             if operands_type is DataType.integer:
                 return Opcode.OPCODE_LESS_EQUAL_I
             elif operands_type is DataType.float:
                 return Opcode.OPCODE_LESS_EQUAL_F
+            elif operands_type is DataType.string:
+                return Opcode.OPCODE_LESS_EQUAL_S
 
         elif self.operator == '&':
             if operands_type is DataType.boolean:
@@ -150,6 +166,18 @@ class NodeOperator(TreeNode):
                         return DataType.boolean
                     else:
                         raise CompilerError(0, 0, "Invalid operands types")
+                elif self.left.get_return_type(scope) is DataType.string:
+                    if self.operator == '+':
+                        return DataType.string
+                    elif self.operator == '==' or \
+                                    self.operator == '!=' or \
+                                    self.operator == '>' or \
+                                    self.operator == '<' or \
+                                    self.operator == '>=' or \
+                                    self.operator == '<=':
+                        return DataType.boolean
+                    else:
+                        raise CompilerError(0, 0, "Invalid operands types")
                 elif self.left.get_return_type(scope) is DataType.boolean:
                     if self.operator == '|' or \
                                     self.operator == '&':
@@ -158,6 +186,9 @@ class NodeOperator(TreeNode):
                         raise CompilerError(0, 0, "Invalid operands types")
                 else:
                     raise CompilerError(0, 0, "Invalid operands types")
+            elif self.left.get_return_type(scope) is DataType.string and self.right.get_return_type(
+                        scope) is DataType.integer and self.operator == '*':
+                return DataType.string
             else:
                 # TODO: error line and col
                 raise CompilerError(0, 0, "Operation on different types, explicit conversion required")
