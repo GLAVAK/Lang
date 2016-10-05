@@ -1,0 +1,10 @@
+v
+[tr = true]
+[fa = false]
+
+[write(fa | false)]
+[write(tr | false)]
+[write(tr & true)]
+[write(tr & false)]
+
+[exit()]

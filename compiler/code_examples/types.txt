@@ -1,8 +1,0 @@
-v[tr = true]
-v[fa = false]
-
-v[write(fa | false)]
-v[write(tr | false)]
-v[write(tr & true)]
-v[write(tr & false)]
-v[exit()]

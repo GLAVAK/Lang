@@ -1,0 +1,14 @@
+v
+[str = read()]
+[write(str)]
+
+[integer = i(read())]
+[write(integer)]
+
+[float = f(read())]
+[write(float)]
+
+[str2 = s(42.16)]
+[write(str2)]
+
+[exit()]

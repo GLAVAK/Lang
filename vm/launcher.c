@@ -20,13 +20,20 @@ char * vm_read()
     return s;
 }
 
-void main()
+void main(int argc, char *argv[])
 {
-    struct vm_settings settings;
+    if( argc == 2 )
+    {
+        struct vm_settings settings;
 
-    settings.program_filename = (unsigned char *) "../program";
-    settings.print = &vm_print;
-    settings.read = &vm_read;
+        settings.program_filename = (unsigned char *) argv[1];
+        settings.print = &vm_print;
+        settings.read = &vm_read;
 
-    start_vm(settings);
+        start_vm(settings);
+    }
+    else
+    {
+        printf("Please, specify program filename\n");
+    }
 }

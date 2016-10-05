@@ -1,4 +1,0 @@
-v[a = 5]
-v[b = -a]
-v[write(b)]
-v[exit()]

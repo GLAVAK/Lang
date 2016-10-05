@@ -1,0 +1,9 @@
+           v[a = "Hello,"]
+           v[b = " world!"]
+           v[write(a + b)]
+           v[write(a)]
+
+           v[с = "ab" * 3]
+           v[write(с)]
+
+           v[exit()]

@@ -10,6 +10,13 @@ def remove_empty_blocks(blocks):
         turns into
         [a=1]>  [write(a)]>
     """
+
+    while isinstance(blocks[0], CodeBlockEmpty):
+        # First block is empty. Remove it from the list:
+        first_empty_block = blocks.pop(0)
+        # And move it's next block to the beginning:
+        blocks.remove(first_empty_block.next_block)
+        blocks.insert(0, first_empty_block.next_block)
     for block in blocks:
         if isinstance(block, CodeBlockEmpty):
             # We'll remove empty blocks later, after removing their dependencies

@@ -1,12 +1,10 @@
-        [a=1]v
-         v{a > 0}v
+[italic = false]v
+         v{italic}v
 
-      [a = 5] [a = 42]
+[write("<b>")] [write("<i>")]
 
-[write("l1")] [write("r1")]   [a = -1]
+      [write("content")]
 
-[write("center, a=" + s(a))]
+[write("</b>")] [write("</i>")]
 
-[write("l2")] [write("r2")]
-
-        [exit()] <
+        [exit()]  <

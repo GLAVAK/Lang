@@ -30,7 +30,12 @@ def text_to_block(file, scope: Scope):
                        positions in memory
     :return: list of blocks in code
     """
-    blocks = []
+
+    # Add block to the beginning of program, to define initial position and direction
+    starting_block = CodeBlockEmpty(1, 0)
+    starting_block.direction = MovingDirection.right
+
+    blocks = [starting_block]
 
     for line_num, line in enumerate(file, 1):
 
@@ -111,7 +116,7 @@ def text_to_block(file, scope: Scope):
                 previous_block = None
 
         if current_block is not None:
-            raise CompilerError(line_num, None, "Block not closed, but end of line reached")
+            raise CompilerError(line_num, current_block.column, "Block not closed, but end of line reached")
 
         if empty_block is not None:
             empty_block.direction = char_to_direction(previous_char)
