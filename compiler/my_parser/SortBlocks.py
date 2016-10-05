@@ -43,7 +43,7 @@ def sort_blocks(blocks, scope: Scope):
     sort_blocks_for_block(blocks[0], stack)
 
     for block in blocks:
-        if block not in stack:
+        if block not in stack and not (isinstance(block, CodeBlockStatement) and block.ft_block_instantiated):
             scope.warnings.append(CompilerWarning(block.line, block.column,
                                                   "Unreachable block found"))
 

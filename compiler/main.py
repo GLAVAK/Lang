@@ -13,7 +13,7 @@ from my_parser.TextToBlocks import text_to_block
 from my_parser.scope import Scope
 
 scope = Scope()
-blocks = text_to_block(open("code_examples/blocksIf.txt"), scope)
+blocks = text_to_block(open("code_examples/blocksFT.txt"), scope)
 
 # Then connect all the blocks to each other, using their next block direction and
 # position, and save this information in the next_block field

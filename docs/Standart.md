@@ -1,14 +1,31 @@
 # Programming language with no name yet, standart
 ## Code block
 
-Program consists of blocks, which is statements enclosed in square or curly brackets. Code blocks enclosed in square brackets (`[a = 3]v`) should have one of direction symbols before or after them. Code block enclosed in curly brackets (`<{a > 2}>`) is conditional block. They should have direction symbols on both sides.
+Program consists of blocks, which is statements enclosed in square or curly brackets. Code blocks enclosed in square brackets (`[a = 3]v`) may have one of direction symbols before or after them. Code block enclosed in curly brackets (`<{a > 2}>`) is conditional block. They should have direction symbols on both sides.
 Code block can contain only directional symbol, and be used to redirect the program execution.
 
 Directional symbol - one of the: `>`, `^`, `<`, `v`. Symbols `o` and `x` will be used for layer navigation, which is not supported yet.
 
 ## Program execution
 
-Abstract machine starts at the top-left corner of you programm, pointing right. When it reaches first code block, whether it is conditional, normal, or empty block, it evaluates statement in it, if any. After the block machine continues execution in the direction of block's directional symbol, at from symbol's exact position. If there are no blocks in this direction, it jumps to 
+Abstract machine starts at the top-left corner of you programm, pointing right. When it reaches first code block, whether it is conditional, normal, or empty block, it evaluates statement in it, if any. After the block machine continues execution in the direction of block's directional symbol, at from symbol's exact position. If there are no blocks in this direction, it jumps to another side of file and starts over (like in a snake game)
+
+## Fall-through blocks
+
+If statement block have no directional symbols around, it is considered as fall-through block. This means that whenever abstract machine reached it, after it evaluates expression inside it continues from the exact point it hit the block. This behaviour allows to reduce amount of duplicate code, like in this example:
+```
+[italic = false]v
+         v{italic}v
+
+[write("<b>")] [write("<i>")]
+
+      [write("content")]
+
+[write("</b>")] [write("</i>")]
+
+        [exit()]  <
+```
+Code block `[write("content")]` is written once, but included in both braches of condition.
 
 ## Conditions
 

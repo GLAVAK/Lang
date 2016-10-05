@@ -1,0 +1,12 @@
+        [a=1]v
+         v{a > 0}v
+
+      [a = 5] [a = 42]
+
+[write("l1")] [write("r1")]   [a = -1]
+
+[write("center, a=" + s(a))]
+
+[write("l2")] [write("r2")]
+
+        [exit()] <
