@@ -1,0 +1,28 @@
+                         v
+                         [write("Enter digit 1-9:")]
+                         [in = i(read())]
+
+                         v{in == 1}v
+                        v{in == 2}v
+                       v{in == 3}v
+                      v{in == 4}v
+                     v{in == 5}v
+                    v{in == 6}v
+                   v{in == 7}v
+                  v{in == 8}v
+
+                                   [write("You entered one")]>       v
+                                  [write("You entered two")]>        v
+                                 [write("You entered three")]>       v
+                                [write("You entered four")]>         v
+                               [write("You entered five")]>          v
+                              [write("You entered six")]>            v
+                             [write("You entered seven")]>           v
+                            [write("You entered eight")]>            v
+
+                  [write("You entered something weird")]>            v
+                                                                     [write("And finally, the end")]> [exit()]
+                   
+
+                   
+

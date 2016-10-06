@@ -48,7 +48,11 @@ def text_to_block(file, scope: Scope):
 
         for column_num, char in enumerate(line, 1):
 
-            if (char == '[' or char == '{') and current_block is None:
+            if char == '\t':
+                raise CompilerError(line_num, column_num, "Tabulation character. Please replace it with spaces "
+                                                          "for proper code align")
+
+            elif (char == '[' or char == '{') and current_block is None:
                 # block started:
 
                 if char == '[':
@@ -75,7 +79,16 @@ def text_to_block(file, scope: Scope):
                 current_block.width += len(block_content)
 
                 if char == ']' and isinstance(current_block, CodeBlockStatement):
-                    current_block.evaluation_tree = string_to_tree(block_content, scope, current_block)
+                    if block_content.strip() == "":
+                        new_block = CodeBlockEmpty(current_block.line, current_block.column)
+
+                        new_block.direction = current_block.direction
+                        new_block.width = current_block.width
+                        new_block.is_arrow_on_right = current_block.is_arrow_on_right
+
+                        current_block = new_block
+                    else:
+                        current_block.evaluation_tree = string_to_tree(block_content, scope, current_block)
                 elif char == '}' and isinstance(current_block, CodeBlockCondition):
                     current_block.evaluation_tree = string_to_tree(block_content, scope, current_block)
 
@@ -101,7 +114,7 @@ def text_to_block(file, scope: Scope):
                         # "[a = 1]>" situation
 
                         previous_block.width += 1
-                        if isinstance(previous_block, CodeBlockStatement):
+                        if isinstance(previous_block, CodeBlockStatement) or isinstance(previous_block, CodeBlockEmpty):
                             previous_block.direction = char_to_direction(char)
                             previous_block.is_arrow_on_right = True
                         elif isinstance(previous_block, CodeBlockCondition):

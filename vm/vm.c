@@ -333,7 +333,7 @@ int start_vm(struct vm_settings settings)
                 break;
 
             default:
-                printf("Unknown opcode");
+                printf("Unknown opcode %X at position %d", program[instruction_pointer - 1], instruction_pointer - 1);
                 free(program);
                 free(str_for_print);
                 return 0;

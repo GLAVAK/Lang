@@ -1,0 +1,8 @@
+         [    ]v
+
+          >[      ]  [a = "The"]       v
+
+                 [   a = a + " answer"   ]
+ 
+                             [write(a) ]
+                                       [  exit()  ]

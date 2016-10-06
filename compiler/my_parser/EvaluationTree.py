@@ -375,8 +375,7 @@ class NodeAssignment(TreeNode):
     def get_byte_code(self, scope: Scope):
         expression_to_assign = self.right.get_byte_code(scope)
 
-        # Use SEEK, not POP, to leave result on the stack for chaining (a=b=c)
-        code_line = BytecodeLine(Opcode.OPCODE_SEEK_MEM)
+        code_line = BytecodeLine(Opcode.OPCODE_POP_MEM)
         code_line.args.append(MemoryAddressArg(scope.names_table[self.left.var_name].address))
         expression_to_assign.append(code_line)
 

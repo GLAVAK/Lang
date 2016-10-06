@@ -35,7 +35,15 @@ class CodeBlockEmpty(CodeBlock):
         self.width = 1
         self.direction = MovingDirection.undefined
 
+        self.is_arrow_on_right = False
+
         self.next_block = None
+
+    def get_arrow_column(self):
+        if self.is_arrow_on_right:
+            return self.column + self.width - 1
+        else:
+            return self.column
 
 
 class CodeBlockStatement(CodeBlock):

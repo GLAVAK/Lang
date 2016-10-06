@@ -8,7 +8,7 @@ Directional symbol - one of the: `>`, `^`, `<`, `v`. Symbols `o` and `x` will be
 
 ## Program execution
 
-Abstract machine starts at the top-left corner of you programm, pointing right. When it reaches first code block, whether it is conditional, normal, or empty block, it evaluates statement in it, if any. After the block machine continues execution in the direction of block's directional symbol, at from symbol's exact position. If there are no blocks in this direction, it jumps to another side of file and starts over (like in a snake game)
+Abstract machine starts at the top-left corner of you programm, moving right. When it reaches code block, whether it is conditional, normal, or empty block, it evaluates statement in it, if any. After the block machine continues execution in the direction of block's directional symbol, at from symbol's exact position. If there are no blocks in this direction, it jumps to another side of file and starts over (like in a snake game)
 
 ## Fall-through blocks
 
@@ -61,7 +61,7 @@ _Note: in this section "n" means i or f, and "x" means any type_
 | *        | n * n     | n       | Multiplication
 | /        | n / n     | n       | Division
 | -        | n         | n       | Invert number
-| =        | Varname = x | x     | Assignment
+| =        | Varname = x | -     | Assignment
 | >        | n > n     | b       | Greater
 | <        | n < n     | b       | Less
 | >=       | n >= n    | b       | Greater or equal

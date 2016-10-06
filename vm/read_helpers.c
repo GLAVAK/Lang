@@ -46,11 +46,11 @@ struct data_cell read_i_from_program(byte * program, int * out_instruction_point
     result.data.i = 0;
 
     result.data.i |= program[ip];
-    result.data.i <<= sizeof(unsigned char);
+    result.data.i <<= sizeof(unsigned char)*8;
     result.data.i |= program[ip + 1];
-    result.data.i <<= sizeof(unsigned char);
+    result.data.i <<= sizeof(unsigned char)*8;
     result.data.i |= program[ip + 2];
-    result.data.i <<= sizeof(unsigned char);
+    result.data.i <<= sizeof(unsigned char)*8;
     result.data.i |= program[ip + 3];
 
     (*out_instruction_pointer) += 4;
