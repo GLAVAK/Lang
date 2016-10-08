@@ -1,0 +1,20 @@
+    v
+    [write("Enter prime number index:")]
+    [index = i(read())]
+    [current = 2]
+    v                                                                             <
+    [currentDivisor = 1]
+    [divisorsCount = 0]
+    v                                                                           <
+    v{f(current / currentDivisor) == f(current) / f(currentDivisor)}v            
+    v                              <[divisorsCount = divisorsCount + 1]
+    [currentDivisor = currentDivisor + 1]
+    v{currentDivisor <= current}>                                               ^/Continue looking for divisors/
+
+    v{divisorsCount == 2}v
+    [current = current + 1]
+    v              <[index = index-1]
+    
+    >                                          >{index == 0}v                     ^/Go to the next number/
+                                                      [write(current-1)]
+                                                        [exit()]

@@ -8,7 +8,7 @@ Directional symbol - one of the: `>`, `^`, `<`, `v`. Symbols `o` and `x` will be
 
 ## Program execution
 
-Abstract machine starts at the top-left corner of you programm, moving right. When it reaches code block, whether it is conditional, normal, or empty block, it evaluates statement in it, if any. After the block machine continues execution in the direction of block's directional symbol, at from symbol's exact position. If there are no blocks in this direction, it jumps to another side of file and starts over (like in a snake game)
+Abstract machine starts at the top-left corner of you programm, moving right. When it reaches code block, whether it is conditional, normal, or empty block, it evaluates statement in it, if any. After the block machine continues execution in the direction of block's directional symbol, at from symbol's exact position. If there are no blocks in this direction, it jumps to another side of file and starts over (like in a snake game).
 
 ## Fall-through blocks
 
@@ -30,6 +30,10 @@ Code block `[write("content")]` is written once, but included in both braches of
 ## Conditions
 
 After the abstract machine reaches this block, it evaluates statement inside, which has to have Boolean type (b). If the statement is true goes to direction set by direction symbol on the right, and if it is false on the left.
+
+## Comments
+
+Everything written between '/' outside of any block is considered as comment.
 
 ## Variables
 

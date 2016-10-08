@@ -62,9 +62,9 @@ class NodeOperator(TreeNode):
 
         elif self.operator == '/':
             if operands_type is DataType.integer:
-                return Opcode.OPCODE_MUL_I
+                return Opcode.OPCODE_DIV_I
             elif operands_type is DataType.float:
-                return Opcode.OPCODE_MUL_F
+                return Opcode.OPCODE_DIV_F
 
         elif self.operator == '#':
             if operands_type is DataType.integer:

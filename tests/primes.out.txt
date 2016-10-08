@@ -1,0 +1,2 @@
+s:Enter prime number index:
+>i:11

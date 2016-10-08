@@ -11,7 +11,7 @@
                    v{in == 7}v
                   v{in == 8}v
 
-                                   [write("You entered one")]>       v
+                                   [write("You entered one")]>       v  
                                   [write("You entered two")]>        v
                                  [write("You entered three")]>       v
                                 [write("You entered four")]>         v

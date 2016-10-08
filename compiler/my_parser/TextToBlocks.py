@@ -1,6 +1,7 @@
 from my_parser.CodeBlock import CodeBlockEmpty, CodeBlockStatement, CodeBlockCondition, MovingDirection
 from my_parser.StringToTree import string_to_tree
 from my_parser.exceptions.compiler_error import CompilerError
+from my_parser.exceptions.compiler_warning import CompilerWarning
 from my_parser.scope import Scope
 
 
@@ -46,11 +47,20 @@ def text_to_block(file, scope: Scope):
         previous_char = None  # to process "<[a = 1]" blocks
         previous_block = None  # to process "[a = 1]>" blocks
 
+        is_in_comment = False
+
         for column_num, char in enumerate(line, 1):
 
             if char == '\t':
                 raise CompilerError(line_num, column_num, "Tabulation character. Please replace it with spaces "
                                                           "for proper code align")
+
+            if char == '/' and current_block is None:
+                is_in_comment = not is_in_comment
+                continue
+
+            if is_in_comment:
+                continue
 
             elif (char == '[' or char == '{') and current_block is None:
                 # block started:
@@ -115,6 +125,8 @@ def text_to_block(file, scope: Scope):
 
                         previous_block.width += 1
                         if isinstance(previous_block, CodeBlockStatement) or isinstance(previous_block, CodeBlockEmpty):
+                            if previous_block.direction != MovingDirection.undefined:
+                                raise CompilerError(line_num, column_num, "Block has two directional symbols")
                             previous_block.direction = char_to_direction(char)
                             previous_block.is_arrow_on_right = True
                         elif isinstance(previous_block, CodeBlockCondition):
@@ -130,6 +142,10 @@ def text_to_block(file, scope: Scope):
 
         if current_block is not None:
             raise CompilerError(line_num, current_block.column, "Block not closed, but end of line reached")
+
+        if is_in_comment:
+            scope.warnings.append(
+                CompilerWarning(line_num, len(line) - 1, "Comment block not closed to the end of the line"))
 
         if empty_block is not None:
             empty_block.direction = char_to_direction(previous_char)
