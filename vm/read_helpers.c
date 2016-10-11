@@ -18,24 +18,43 @@ struct data_cell create_empty_string()
     return result;
 }
 
+int is_little_endian()
+{
+    int num = 1;
+
+    return *(char *) &num == 1;
+}
+
 struct data_cell read_f_from_program(byte * program, int * out_instruction_pointer)
 {
     struct data_cell result;
     int ip = *out_instruction_pointer;
 
-    // FIXME: Platform dependent as hell
-    // FIXME: Fucks up program array
+    // TODO: Platform dependent as hell, fix it
     assert(sizeof(double) == 8);
-    for (int i = 0; i < 4; ++i)
+    if (is_little_endian())
     {
-        byte buffer = program[ip + i];
-        program[ip + i] = program[ip + 7 - i];
-        program[ip + 7 - i] = buffer;
+        // Copy data inverting bytes
+        union
+        {
+            double d;
+            char c[8];
+        } data;
+
+        for (int i = sizeof(double) - 1; i >= 0; --i)
+        {
+            data.c[sizeof(double) - 1 - i] = program[ip + i];
+        }
+
+        result.data.f = data.d;
+    }
+    else
+    {
+        // Just copy data
+        memcpy(&result.data.f, program + ip, sizeof(double));
     }
 
-    memcpy(&result.data.f, program + ip, sizeof(double));
-
-    (*out_instruction_pointer) += sizeof(double);
+    (*out_instruction_pointer) += 8;
     return result;
 }
 
@@ -43,15 +62,23 @@ struct data_cell read_i_from_program(byte * program, int * out_instruction_point
 {
     struct data_cell result;
     int ip = *out_instruction_pointer;
-    result.data.i = 0;
 
-    result.data.i |= program[ip];
-    result.data.i <<= sizeof(unsigned char)*8;
-    result.data.i |= program[ip + 1];
-    result.data.i <<= sizeof(unsigned char)*8;
-    result.data.i |= program[ip + 2];
-    result.data.i <<= sizeof(unsigned char)*8;
-    result.data.i |= program[ip + 3];
+    if (is_little_endian())
+    {
+        // Copy data inverting bytes
+        result.data.i = (int) program[ip + 3] |
+                        (int) program[ip + 2] << 8 |
+                        (int) program[ip + 1] << 16 |
+                        (int) program[ip] << 24;
+    }
+    else
+    {
+        // Just copy data
+        result.data.i = (int) program[ip] |
+                        (int) program[ip + 1] << 8 |
+                        (int) program[ip + 2] << 16 |
+                        (int) program[ip + 3] << 24;
+    }
 
     (*out_instruction_pointer) += 4;
     return result;
@@ -70,6 +97,6 @@ struct data_cell read_s_from_program(byte * program, int * out_instruction_point
     }
     result.data.s[position] = '\0';
 
-    (*out_instruction_pointer) += position+1;
+    (*out_instruction_pointer) += position + 1;
     return result;
 }

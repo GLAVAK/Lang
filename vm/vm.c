@@ -4,13 +4,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
-#include <mem.h>
 
 #include "vm.h"
 #include "opcode.h"
 #include "data_cell.h"
 
-#include "utils.h"
 #include "read_helpers.h"
 
 const int stackMaxSize = 128;
