@@ -3,7 +3,7 @@
            v[write(a + b)]
            v[write(a)]
 
-           v[с = "ab" * 3]
-           v[write(с)]
+           v[c = "ab" * 3]
+           v[write(c)]
 
            v[exit()]

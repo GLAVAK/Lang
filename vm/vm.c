@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <mem.h>
 
 #include "vm.h"
 #include "opcode.h"
@@ -25,7 +26,7 @@ int start_vm(struct vm_settings settings)
 
     struct data_cell memory[memoryMaxSize];
 
-    char * str_for_print = malloc(sizeof(char) * 20);
+    char str_for_print[250];
     str_for_print[0] = '\0';
 
     while (1)
@@ -297,7 +298,6 @@ int start_vm(struct vm_settings settings)
 
             case OPCODE_EXIT:
                 free(program);
-                free(str_for_print);
                 return 0;
             case OPCODE_READ:
                 assert(stackSize < stackMaxSize);
@@ -326,6 +326,7 @@ int start_vm(struct vm_settings settings)
                 break;
             case OPCODE_WRITE_S:
                 assert(stackSize >= 1);
+                assert(strlen(stack[stackSize - 1].data.s) < 100-1-3);
                 sprintf(str_for_print, "s:%s\n", stack[stackSize - 1].data.s);
                 settings.print((unsigned char *) str_for_print);
                 break;
@@ -333,9 +334,7 @@ int start_vm(struct vm_settings settings)
             default:
                 printf("Unknown opcode %X at position %d", program[instruction_pointer - 1], instruction_pointer - 1);
                 free(program);
-                free(str_for_print);
                 return 0;
         }
     }
-
 }

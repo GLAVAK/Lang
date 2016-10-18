@@ -2,6 +2,8 @@
 // Created by Glavak on 9/29/2016.
 //
 
+#include <stdio.h>
+
 #include "utils.h"
 
 unsigned char * read_file(char * filename, size_t * out_size)
