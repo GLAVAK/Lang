@@ -1,8 +1,10 @@
-from my_parser.CodeBlock import CodeBlockEmpty, CodeBlockStatement, CodeBlockCondition, MovingDirection
-from my_parser.StringToTree import string_to_tree
+from typing import List
+
+from my_parser.code_block import CodeBlockEmpty, CodeBlockStatement, CodeBlockCondition, MovingDirection, CodeBlock
 from my_parser.exceptions.compiler_error import CompilerError
 from my_parser.exceptions.compiler_warning import CompilerWarning
 from my_parser.scope import Scope
+from my_parser.string_to_tree import string_to_tree
 
 
 def is_direction_char(char: str) -> bool:
@@ -23,7 +25,7 @@ def char_to_direction(char: str) -> MovingDirection:
 
 
 # TODO: too long function, a bit of refactoring would be nice
-def text_to_block(file, scope: Scope):
+def text_to_block(file, scope: Scope) -> List[CodeBlock]:
     """
     Parses all blocks from code file, without linking them to each other
     :param file: file from where to read code

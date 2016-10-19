@@ -1,19 +1,21 @@
-from my_parser.BytecodeLine import BytecodeLine, ProgramAddressArg
-from my_parser.CodeBlock import CodeBlockCondition, CodeBlockStatement, CodeBlock
-from my_parser.EvaluationTree import NodeMacro
-from my_parser.Opcodes import Opcode
+from typing import List
+
+from my_parser.bytecode_line import BytecodeLine, ProgramAddressArg
+from my_parser.code_block import CodeBlockCondition, CodeBlockStatement, CodeBlock
+from my_parser.evaluation_tree import NodeMacro
+from my_parser.opcodes import Opcode
 
 
-def append_jump(final_program, target: CodeBlock, type: Opcode):
+def append_jump(final_program: List[BytecodeLine], target: CodeBlock, jump_type: Opcode) -> None:
     push_addr = BytecodeLine(Opcode.OPCODE_PUSH_VAL_I)
     push_addr.args.append(ProgramAddressArg(target))
     final_program.append(push_addr)
 
-    jump = BytecodeLine(type)
+    jump = BytecodeLine(jump_type)
     final_program.append(jump)
 
 
-def compile_blocks(blocks):
+def compile_blocks(blocks: List[CodeBlock]) -> List[BytecodeLine]:
     """
     Joins all block's bytecode fields into one list, according to their order in that list.
     Adds GOTO's and IF's where required
@@ -31,7 +33,7 @@ def compile_blocks(blocks):
 
         if isinstance(block, CodeBlockStatement) and \
                 isinstance(block.evaluation_tree, NodeMacro) and \
-                block.evaluation_tree.macro_name == "exit":
+                        block.evaluation_tree.macro_name == "exit":
             # It's exit block, no further jumps required
             continue
 

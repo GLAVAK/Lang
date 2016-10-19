@@ -1,0 +1,15 @@
+                      v
+                      [a=1]
+
+                    v{a == 1}v              <
+                 [write("begin")]
+
+           [write("exit")]
+                          [a = a + 1]
+                          [write("loop")]
+
+                 [write("end")]
+
+                             >              ^
+
+                 [exit()]

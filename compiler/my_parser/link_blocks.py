@@ -1,10 +1,21 @@
 import copy
+from typing import List
 
-from my_parser.CodeBlock import CodeBlockStatement, CodeBlockEmpty, MovingDirection
+from my_parser.code_block import CodeBlockStatement, CodeBlockEmpty, MovingDirection, CodeBlock, CodeBlockCondition
 from my_parser.exceptions.internal_error import InternalError
 
 
-def find_closest_blocks(arrow_start_line, arrow_start_column, arrow_direction, blocks):
+def find_closest_blocks(arrow_start_line: int, arrow_start_column: int,
+                        arrow_direction: MovingDirection, blocks: List[CodeBlock]) -> List[CodeBlock]:
+    """
+    Raycasts ray from given point to given direction, starting from another side, if
+    necessary (snake game-like topology), and returns hit block
+    :param arrow_start_line:
+    :param arrow_start_column:
+    :param arrow_direction:
+    :param blocks:
+    :return: Hit block
+    """
     best_fit = None
 
     for block in blocks:
@@ -64,47 +75,45 @@ def find_closest_blocks(arrow_start_line, arrow_start_column, arrow_direction, b
     return result
 
 
-def get_next_block(block, blocks):
-    # TODO: Remove repetitive code
-
-    if isinstance(block, CodeBlockStatement) or isinstance(block, CodeBlockEmpty):
-        if block.next_blocks[0].is_fall_through_block():
-            block.next_blocks[0].ft_block_instantiated = True
-            block.next_block = copy.copy(block.next_blocks.pop(0))
-            # Put random moving direction, for their is_fall_through_block method to return false
-            block.next_block.direction = MovingDirection.left
-            block.next_block.next_blocks = block.next_blocks
-            blocks.append(block.next_block)
-        else:
-            block.next_block = block.next_blocks.pop(0)
+def get_next_block(next_blocks: List[CodeBlock], blocks: List[CodeBlock]) -> CodeBlock:
+    """
+    Pops block from next_blocks, instantiates it correctly adding to blocks if FT block,
+    and returns it
+    :param next_blocks:
+    :param blocks: Instantiated FT blocks will be added to blocks
+    :return:
+    """
+    if isinstance(next_blocks[0], CodeBlockStatement) and next_blocks[0].is_fall_through_block():
+        next_blocks[0].ft_block_instantiated = True
+        next_block = copy.copy(next_blocks.pop(0))
+        # Put random moving direction, for their is_fall_through_block method to return false
+        next_block.direction = MovingDirection.left
+        next_block.next_blocks = next_blocks
+        blocks.append(next_block)
+        return next_block
     else:
-        if block.false_blocks[0].is_fall_through_block():
-            block.false_blocks[0].ft_block_instantiated = True
-            block.false_block = copy.copy(block.false_blocks.pop(0))
-            # Put random moving direction, for their is_fall_through_block method to return false
-            block.false_block.direction = MovingDirection.left
-            block.false_block.next_blocks = block.false_blocks
-            blocks.append(block.false_block)
-        else:
-            block.false_block = block.false_blocks.pop(0)
-
-        if block.true_blocks[0].is_fall_through_block():
-            block.true_blocks[0].ft_block_instantiated = True
-            block.true_block = copy.copy(block.true_blocks.pop(0))
-            # Put random moving direction, for their is_fall_through_block method to return false
-            block.true_block.direction = MovingDirection.left
-            block.true_block.next_blocks = block.true_blocks
-            blocks.append(block.true_block)
-        else:
-            block.true_block = block.true_blocks.pop(0)
+        return next_blocks.pop(0)
 
 
-def link_blocks(blocks):
+def calculate_next_block(block: CodeBlock, blocks: List[CodeBlock]) -> None:
+    """
+    Sets next_block field for Statement or Empty block, or false_block and true_block
+    fields for Condition block, taking first block from next_blocks field
+    :param block:
+    :param blocks: Instantiated FT blocks will be added to blocks
+    """
+    if isinstance(block, CodeBlockStatement) or isinstance(block, CodeBlockEmpty):
+        block.next_block = get_next_block(block.next_blocks, blocks)
+    elif isinstance(block, CodeBlockCondition):
+        block.false_block = get_next_block(block.false_blocks, blocks)
+        block.true_block = get_next_block(block.true_blocks, blocks)
+
+
+def link_blocks(blocks: List[CodeBlock]) -> None:
     """
     Links all the blocks to each other, using their coordinates. If any FT blocks found, they are
     instantiated and added to blocks list with proper connections
     :param blocks:
-    :return:
     """
 
     # At first for every block block.next_blocks get filled with fall-through blocks and
@@ -115,7 +124,7 @@ def link_blocks(blocks):
             continue
         elif isinstance(block, CodeBlockStatement) or isinstance(block, CodeBlockEmpty):
             block.next_blocks = find_closest_blocks(block.line, block.get_arrow_column(), block.direction, blocks)
-        else:
+        elif isinstance(block, CodeBlockCondition):
             block.false_blocks = \
                 find_closest_blocks(block.line, block.column, block.false_direction, blocks)
             block.true_blocks = \
@@ -126,5 +135,5 @@ def link_blocks(blocks):
         if blocks[block_num].is_fall_through_block():
             pass
         else:
-            get_next_block(blocks[block_num], blocks)
+            calculate_next_block(blocks[block_num], blocks)
         block_num += 1

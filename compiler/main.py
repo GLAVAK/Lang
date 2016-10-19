@@ -1,18 +1,13 @@
 import sys
 
-from my_parser.CheckErrors import check_errors
-from my_parser.CodeBlock import CodeBlockCondition, CodeBlockStatement
-from my_parser.CompileBlocks import compile_blocks
-from my_parser.LinkBlocks import link_blocks
-from my_parser.SimpleOptimizations import remove_empty_blocks
-from my_parser.SortBlocks import sort_blocks
-from my_parser.TextToBlocks import text_to_block
-
-# First, read all blocks from file, define their types (Empty, Statement, Condition),
-# direction to the next block, it's position in the world, and also parse the text in
-# the block to EvaluationTree using string_to_tree() function. It also fills name_table
-# for us, which contains var's names and their positions in memory
+from my_parser.check_errors import check_errors
+from my_parser.code_block import CodeBlockCondition, CodeBlockStatement
+from my_parser.compile_blocks import compile_blocks
+from my_parser.link_blocks import link_blocks
+from my_parser.optimizations.remove_empty_blocks import remove_empty_blocks
+from my_parser.optimizations.sort_blocks import sort_blocks
 from my_parser.scope import Scope
+from my_parser.text_to_blocks import text_to_block
 
 scope = Scope()
 blocks = text_to_block(open(sys.argv[1]), scope)
@@ -32,8 +27,7 @@ for block in blocks:
     if isinstance(block, CodeBlockCondition) or isinstance(block, CodeBlockStatement):
         block.bytecode = block.evaluation_tree.get_byte_code(scope)
 
-# here goes optimizations that can change bytecode length
-
+# Reorder blocks for least possible amount of jumps
 sort_blocks(blocks, scope)
 
 # Put all blocks to the final program, and define their position in there. GOTO's are put
@@ -51,8 +45,6 @@ for bytecode_line in final_program:
 file = open(sys.argv[2], "wb")
 for bytecode_line in final_program:
     bytecode_line.pack(file)
-
-# TODO: figure out how to call files, functions and classes to avoid import conflicts
 
 if len(scope.warnings) > 0:
     print("Warnings:")

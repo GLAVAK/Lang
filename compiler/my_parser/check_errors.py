@@ -1,10 +1,12 @@
-from my_parser.CodeBlock import CodeBlockCondition
+from typing import List
+
+from my_parser.code_block import CodeBlockCondition, CodeBlock
 from my_parser.data_type import DataType
 from my_parser.exceptions.compiler_error import CompilerError
 from my_parser.scope import Scope
 
 
-def check_errors(blocks, scope: Scope):
+def check_errors(blocks: List[CodeBlock], scope: Scope) -> None:
     """
     Checks for compiler errors, such as:
      - not boolean in condition

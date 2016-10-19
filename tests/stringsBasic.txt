@@ -1,9 +1,10 @@
-           v[a = "Hello,"]
-           v[b = " world!"]
-           v[write(a + b)]
-           v[write(a)]
+           v
+           [a = "Hello,"]
+           [b = " world!"]
+           [write(a + b)]
+           [write(a)]
 
-           v[c = "ab" * 3]
-           v[write(c)]
+           [c = "ab" * 3]
+           [write(c)]
 
-           v[exit()]
+           [exit()]

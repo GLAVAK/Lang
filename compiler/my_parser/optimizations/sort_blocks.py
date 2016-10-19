@@ -1,6 +1,7 @@
 from enum import Enum
+from typing import List
 
-from my_parser.CodeBlock import CodeBlockStatement, CodeBlockCondition
+from my_parser.code_block import CodeBlockStatement, CodeBlockCondition, CodeBlock
 from my_parser.exceptions.compiler_warning import CompilerWarning
 from my_parser.scope import Scope
 
@@ -11,7 +12,7 @@ class BlockColor(Enum):
     Black = 2
 
 
-def sort_blocks_for_block(block, stack):
+def sort_blocks_for_block(block: CodeBlock, stack: List[CodeBlock]) -> None:
     block.color = BlockColor.Gray
 
     if isinstance(block, CodeBlockStatement) and block.next_block.color == BlockColor.White:
@@ -26,12 +27,13 @@ def sort_blocks_for_block(block, stack):
     block.color = BlockColor.Black
 
 
-def sort_blocks(blocks, scope: Scope):
+def sort_blocks(blocks: List[CodeBlock], scope: Scope) -> None:
     """
     Topologically sorts blocks in given list, removing unreachable ones, and sorting reachable
     so that next block goes, when possible, right after previous, to minimize GOTO's around the
     program
     :param blocks: List to sort
+    :param scope: Used for throwing warnings
     """
     stack = []
 

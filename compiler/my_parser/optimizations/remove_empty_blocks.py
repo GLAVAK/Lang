@@ -1,8 +1,10 @@
-from my_parser.CodeBlock import CodeBlockEmpty, CodeBlockStatement, CodeBlockCondition
+from typing import List
+
+from my_parser.code_block import CodeBlockEmpty, CodeBlockStatement, CodeBlockCondition, CodeBlock
 from my_parser.exceptions.compiler_error import CompilerError
 
 
-def remove_empty_blocks(blocks):
+def remove_empty_blocks(blocks: List[CodeBlock]) -> None:
     """
     Removes empty blocks from given list, keeping the program correct
     Ex:
@@ -17,6 +19,7 @@ def remove_empty_blocks(blocks):
         # And move it's next block to the beginning:
         blocks.remove(first_empty_block.next_block)
         blocks.insert(0, first_empty_block.next_block)
+
     for block in blocks:
         if isinstance(block, CodeBlockEmpty):
             # We'll remove empty blocks later, after removing their dependencies

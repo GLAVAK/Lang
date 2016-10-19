@@ -4,7 +4,7 @@ class CompilerError(Exception):
         self.column = column
         self.text = text
 
-    def __str__(self):
+    def __str__(self) -> str:
         if self.column is None:
             return "Error (line {}) {}".format(self.line, self.text)
         else:

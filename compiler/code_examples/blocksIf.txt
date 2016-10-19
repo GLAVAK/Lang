@@ -1,7 +1,0 @@
-      [a = 10]v
-
-         v{a > 8}v
-
-   [write(a)]v  v[write(5)]
-
-           [exit()]

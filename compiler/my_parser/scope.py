@@ -6,6 +6,6 @@ class Scope:
         self.names_table = {}
         self.warnings = []
 
-    def add_variable(self, name):
+    def add_variable(self, name: str) -> None:
         if name not in self.names_table:
             self.names_table[name] = Variable(name, len(self.names_table))

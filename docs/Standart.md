@@ -66,6 +66,8 @@ _Note: in this section "n" means i or f, and "x" means any type_
 | /        | n / n     | n       | Division
 | -        | n         | n       | Invert number
 | =        | Varname = x | -     | Assignment
+| ==       | n == n    | b       | Equals
+| !=       | n != n    | b       | Not equals
 | >        | n > n     | b       | Greater
 | <        | n < n     | b       | Less
 | >=       | n >= n    | b       | Greater or equal

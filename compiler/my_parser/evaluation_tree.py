@@ -1,21 +1,22 @@
-from my_parser.BytecodeLine import BytecodeLine, FloatArg, MemoryAddressArg, IntegerArg, StringArg
-from my_parser.Opcodes import Opcode
-from my_parser.Operators import get_operator
+from typing import List
+
+from my_parser.bytecode_line import BytecodeLine, FloatArg, MemoryAddressArg, IntegerArg, StringArg
 from my_parser.data_type import DataType
 from my_parser.exceptions.compiler_error import CompilerError
 from my_parser.exceptions.compiler_warning import CompilerWarning
-from my_parser.exceptions.internal_error import InternalError
+from my_parser.opcodes import Opcode
+from my_parser.operators import get_operator
 from my_parser.scope import Scope
 
 
 class TreeNode:
-    def __init__(self, line, column):
+    def __init__(self, line: int, column: int):
         self.left = None
         self.right = None
         self.line = line
         self.column = column
 
-    def get_byte_code(self, scope: Scope):
+    def get_byte_code(self, scope: Scope) -> List[BytecodeLine]:
         """
         :returns byte code, in result of execution of which, the expression will be evaluated
         and the result will be on top of the stack
@@ -25,20 +26,19 @@ class TreeNode:
     def get_return_type(self, scope: Scope) -> DataType:
         pass
 
-    def build(self, scope: Scope):
+    def build(self, scope: Scope) -> None:
         """
-        Should be called when all or node children defined
+        Should be called when all of node children defined
         """
         pass
 
 
 class NodeOperator(TreeNode):
-    def __init__(self, operator: str, line, column):
+    def __init__(self, operator: str, line: int, column: int):
         super().__init__(line, column)
-        self.data_type = DataType.undefined
         self.operator = operator
 
-    def get_byte_code(self, scope: Scope):
+    def get_byte_code(self, scope: Scope) -> List[BytecodeLine]:
 
         expression_to_assign = self.left.get_byte_code(scope)
 
@@ -51,14 +51,12 @@ class NodeOperator(TreeNode):
 
         operator = get_operator(self.operator, operand_types, self.line, self.column)
 
-        self.data_type = operator.return_type
-
         code_line = BytecodeLine(operator.opcode)
         expression_to_assign.append(code_line)
 
         return expression_to_assign
 
-    def get_return_type(self, scope: Scope):
+    def get_return_type(self, scope: Scope) -> DataType:
         operand_types = [self.left.get_return_type(scope)]
 
         if self.right is not None:
@@ -71,39 +69,39 @@ class NodeOperator(TreeNode):
 
 
 class NodeInteger(TreeNode):
-    def __init__(self, value: int, line, column):
+    def __init__(self, value: int, line: int, column: int):
         super().__init__(line, column)
         self.value = value
 
-    def get_byte_code(self, scope: Scope):
+    def get_byte_code(self, scope: Scope) -> List[BytecodeLine]:
         code_line = BytecodeLine(Opcode.OPCODE_PUSH_VAL_I)
         code_line.args.append(IntegerArg(self.value))
         return [code_line]
 
-    def get_return_type(self, scope: Scope):
+    def get_return_type(self, scope: Scope) -> DataType:
         return DataType.integer
 
 
 class NodeFloat(TreeNode):
-    def __init__(self, value: float, line, column):
+    def __init__(self, value: float, line: int, column: int):
         super().__init__(line, column)
         self.value = value
 
-    def get_byte_code(self, scope):
+    def get_byte_code(self, scope) -> List[BytecodeLine]:
         code_line = BytecodeLine(Opcode.OPCODE_PUSH_VAL_F)
         code_line.args.append(FloatArg(self.value))
         return [code_line]
 
-    def get_return_type(self, scope: Scope):
+    def get_return_type(self, scope: Scope) -> DataType:
         return DataType.float
 
 
 class NodeBoolean(TreeNode):
-    def __init__(self, value: bool, line, column):
+    def __init__(self, value: bool, line: int, column: int):
         super().__init__(line, column)
         self.value = value
 
-    def get_byte_code(self, scope):
+    def get_byte_code(self, scope) -> List[BytecodeLine]:
         code_line = BytecodeLine(Opcode.OPCODE_PUSH_VAL_I)
         if self.value:
             code_line.args.append(IntegerArg(1))
@@ -111,44 +109,44 @@ class NodeBoolean(TreeNode):
             code_line.args.append(IntegerArg(0))
         return [code_line]
 
-    def get_return_type(self, scope: Scope):
+    def get_return_type(self, scope: Scope) -> DataType:
         return DataType.boolean
 
 
 class NodeString(TreeNode):
-    def __init__(self, value: str, line, column):
+    def __init__(self, value: str, line: int, column: int):
         super().__init__(line, column)
         self.value = value
 
-    def get_byte_code(self, scope: Scope):
+    def get_byte_code(self, scope: Scope) -> List[BytecodeLine]:
         code_line = BytecodeLine(Opcode.OPCODE_PUSH_VAL_S)
         code_line.args.append(StringArg(self.value))
         return [code_line]
 
-    def get_return_type(self, scope: Scope):
+    def get_return_type(self, scope: Scope) -> DataType:
         return DataType.string
 
 
 class NodeVariable(TreeNode):
-    def __init__(self, var_name: str, line, column):
+    def __init__(self, var_name: str, line: int, column: int):
         super().__init__(line, column)
         self.var_name = var_name
 
-    def get_byte_code(self, scope: Scope):
+    def get_byte_code(self, scope: Scope) -> List[BytecodeLine]:
         code_line = BytecodeLine(Opcode.OPCODE_PUSH_MEM)
         code_line.args.append(MemoryAddressArg(scope.names_table[self.var_name].address))
         return [code_line]
 
-    def get_return_type(self, scope: Scope):
+    def get_return_type(self, scope: Scope) -> DataType:
         return scope.names_table[self.var_name].type
 
 
 class NodeMacro(TreeNode):
-    def __init__(self, macro_name: str, line, column):
+    def __init__(self, macro_name: str, line: int, column: int):
         super().__init__(line, column)
         self.macro_name = macro_name
 
-    def get_byte_code(self, scope: Scope):
+    def get_byte_code(self, scope: Scope) -> List[BytecodeLine]:
         expression_to_assign = []
 
         if self.macro_name == 'write':
@@ -168,7 +166,7 @@ class NodeMacro(TreeNode):
 
         return expression_to_assign
 
-    def get_return_type(self, scope: Scope):
+    def get_return_type(self, scope: Scope) -> DataType:
         if self.macro_name == 'write':
             return self.left.get_return_type(scope)
         elif self.macro_name == 'read':
@@ -176,7 +174,7 @@ class NodeMacro(TreeNode):
 
 
 class NodeCast(TreeNode):
-    def __init__(self, target_type: DataType, line, column):
+    def __init__(self, target_type: DataType, line: int, column: int):
         super().__init__(line, column)
         self.target_type = target_type
 
@@ -206,7 +204,7 @@ class NodeCast(TreeNode):
             elif self.left.get_return_type(scope) is DataType.string:
                 return None
 
-    def get_byte_code(self, scope: Scope):
+    def get_byte_code(self, scope: Scope) -> List[BytecodeLine]:
         expression_to_assign = self.left.get_byte_code(scope)
 
         opcode = self.get_cast_opcode(scope)
@@ -220,16 +218,16 @@ class NodeCast(TreeNode):
 
         return expression_to_assign
 
-    def get_return_type(self, scope: Scope):
+    def get_return_type(self, scope: Scope) -> DataType:
         return self.target_type
 
 
 class NodeAssignment(TreeNode):
-    def __init__(self, line, column):
+    def __init__(self, line: int, column: int):
         super().__init__(line, column)
         self.data_type = DataType.undefined
 
-    def get_byte_code(self, scope: Scope):
+    def get_byte_code(self, scope: Scope) -> List[BytecodeLine]:
         expression_to_assign = self.right.get_byte_code(scope)
 
         code_line = BytecodeLine(Opcode.OPCODE_POP_MEM)
@@ -238,7 +236,7 @@ class NodeAssignment(TreeNode):
 
         return expression_to_assign
 
-    def build(self, scope: Scope):
+    def build(self, scope: Scope) -> None:
         if not isinstance(self.left, NodeVariable):
             raise CompilerError(self.line, self.column, "Not a variable name at the left of assignment")
 
@@ -253,5 +251,5 @@ class NodeAssignment(TreeNode):
             raise CompilerError(self.line, self.column, "Attempt to change variable '" + self.left.var_name +
                                 "' type from " + var_data_type.name + " to " + value_type.name)
 
-    def get_return_type(self, scope: Scope):
-        return self.right.get_return_type(scope)
+    def get_return_type(self, scope: Scope) -> DataType:
+        return DataType.undefined

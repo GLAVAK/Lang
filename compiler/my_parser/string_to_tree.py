@@ -1,13 +1,15 @@
-from my_parser.CodeBlock import CodeBlock
-from my_parser.EvaluationTree import NodeFloat, NodeVariable, NodeMacro, NodeOperator, NodeAssignment, TreeNode, \
+from typing import List
+
+from my_parser.code_block import CodeBlock
+from my_parser.evaluation_tree import NodeFloat, NodeVariable, NodeMacro, NodeOperator, NodeAssignment, TreeNode, \
     NodeCast, NodeInteger, NodeString, NodeBoolean
-from my_parser.Statement import Statement, TokenFloat, TokenIdentifier, TokenOperator, TokenMacro, TokenCast, \
-    TokenInteger, TokenString, TokenBoolean
 from my_parser.exceptions.compiler_error import CompilerError
 from my_parser.scope import Scope
+from my_parser.statement import Statement, TokenFloat, TokenIdentifier, TokenOperator, TokenMacro, TokenCast, \
+    TokenInteger, TokenString, TokenBoolean, Token
 
 
-def rpn_to_tree(rpn, scope, code_block: CodeBlock):
+def rpn_to_tree(rpn: List[Token], scope: Scope, code_block: CodeBlock) -> TreeNode:
     stack = []
 
     for token in rpn:
@@ -59,7 +61,7 @@ def rpn_to_tree(rpn, scope, code_block: CodeBlock):
     return stack[0]
 
 
-def build_all_nodes(root: TreeNode, scope: Scope):
+def build_all_nodes(root: TreeNode, scope: Scope) -> None:
     if root.left is not None:
         build_all_nodes(root.left, scope)
     if root.right is not None:
@@ -68,7 +70,7 @@ def build_all_nodes(root: TreeNode, scope: Scope):
     root.build(scope)
 
 
-def statement_to_rpn(statement: Statement, code_block: CodeBlock):
+def statement_to_rpn(statement: Statement, code_block: CodeBlock) -> List[Token]:
     output = []
     stack = []
 
