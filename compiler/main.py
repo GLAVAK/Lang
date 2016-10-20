@@ -4,6 +4,7 @@ from my_parser.check_errors import check_errors
 from my_parser.code_block import CodeBlockCondition, CodeBlockStatement
 from my_parser.compile_blocks import compile_blocks
 from my_parser.link_blocks import link_blocks
+from my_parser.optimizations.precalculate_constants import precalculate_constants
 from my_parser.optimizations.remove_empty_blocks import remove_empty_blocks
 from my_parser.optimizations.sort_blocks import sort_blocks
 from my_parser.scope import Scope
@@ -24,8 +25,8 @@ remove_empty_blocks(blocks)
 # Get actual list of opcodes for each block, and store it in it's bytecode field (without
 # GOTO's and IF's yet)
 for block in blocks:
-    if isinstance(block, CodeBlockCondition) or isinstance(block, CodeBlockStatement):
-        block.bytecode = block.evaluation_tree.get_byte_code(scope)
+    block.evaluation_tree = precalculate_constants(block.evaluation_tree, scope)
+    block.bytecode = block.evaluation_tree.get_byte_code(scope)
 
 # Reorder blocks for least possible amount of jumps
 sort_blocks(blocks, scope)

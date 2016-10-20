@@ -5,7 +5,7 @@ from my_parser.data_type import DataType
 from my_parser.exceptions.compiler_error import CompilerError
 from my_parser.exceptions.compiler_warning import CompilerWarning
 from my_parser.opcodes import Opcode
-from my_parser.operators import get_operator
+from my_parser.operators import get_operator, Operator
 from my_parser.scope import Scope
 
 
@@ -32,24 +32,33 @@ class TreeNode:
         """
         pass
 
+    def is_constant(self)->bool:
+        """
+        Whether or not this node contains no children and have constant value
+        """
+        return False
+
 
 class NodeOperator(TreeNode):
     def __init__(self, operator: str, line: int, column: int):
         super().__init__(line, column)
         self.operator = operator
 
-    def get_byte_code(self, scope: Scope) -> List[BytecodeLine]:
-
-        expression_to_assign = self.left.get_byte_code(scope)
-
+    def get_operator(self, scope: Scope) -> Operator:
         operand_types = [self.left.get_return_type(scope)]
-
         if self.right is not None:
             # Two operands
             operand_types.append(self.right.get_return_type(scope))
+
+        return get_operator(self.operator, operand_types, self.line, self.column)
+
+    def get_byte_code(self, scope: Scope) -> List[BytecodeLine]:
+        expression_to_assign = self.left.get_byte_code(scope)
+        if self.right is not None:
+            # Two operands
             expression_to_assign.extend(self.right.get_byte_code(scope))
 
-        operator = get_operator(self.operator, operand_types, self.line, self.column)
+        operator = self.get_operator(scope)
 
         code_line = BytecodeLine(operator.opcode)
         expression_to_assign.append(code_line)
@@ -57,15 +66,7 @@ class NodeOperator(TreeNode):
         return expression_to_assign
 
     def get_return_type(self, scope: Scope) -> DataType:
-        operand_types = [self.left.get_return_type(scope)]
-
-        if self.right is not None:
-            # Two operands
-            operand_types.append(self.right.get_return_type(scope))
-
-        operator = get_operator(self.operator, operand_types, self.line, self.column)
-
-        return operator.return_type
+        return self.get_operator(scope).return_type
 
 
 class NodeInteger(TreeNode):
@@ -81,6 +82,9 @@ class NodeInteger(TreeNode):
     def get_return_type(self, scope: Scope) -> DataType:
         return DataType.integer
 
+    def is_constant(self)->bool:
+        return True
+
 
 class NodeFloat(TreeNode):
     def __init__(self, value: float, line: int, column: int):
@@ -94,6 +98,9 @@ class NodeFloat(TreeNode):
 
     def get_return_type(self, scope: Scope) -> DataType:
         return DataType.float
+
+    def is_constant(self)->bool:
+        return True
 
 
 class NodeBoolean(TreeNode):
@@ -112,6 +119,9 @@ class NodeBoolean(TreeNode):
     def get_return_type(self, scope: Scope) -> DataType:
         return DataType.boolean
 
+    def is_constant(self)->bool:
+        return True
+
 
 class NodeString(TreeNode):
     def __init__(self, value: str, line: int, column: int):
@@ -125,6 +135,9 @@ class NodeString(TreeNode):
 
     def get_return_type(self, scope: Scope) -> DataType:
         return DataType.string
+
+    def is_constant(self)->bool:
+        return True
 
 
 class NodeVariable(TreeNode):

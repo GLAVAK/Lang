@@ -1,3 +1,5 @@
+from typing import List
+
 from my_parser.data_type import DataType
 
 
@@ -164,7 +166,7 @@ def create_token(string: str, column: int) -> Token:
                     return TokenIdentifier(string, column)
 
 
-def parse_on_tokens(text):
+def parse_on_tokens(text: str) -> List[Token]:
     text = text.strip()
 
     last_token = ""
