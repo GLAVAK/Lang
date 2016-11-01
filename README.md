@@ -19,9 +19,9 @@ Here is the example of counting 10 fibbonachi numbers:
 ```
 
 Statements are in square brackets, arrow (<, >, v, ^) at the right or left of it defines the control flow direction. Just arrows redirects the flow. And conditions are in curly brackets.
-You can define variables by just assigning to them. More about data types and everything in [the standart](GLAVAK/Lang/blob/master/docs/Standart.md).
+You can define variables by just assigning to them. More about data types and everything in [the standart](/GLAVAK/Lang/blob/master/docs/Standart.md).
 
-More code examples in [tests folder](GLAVAK/Lang/tree/master/tests).
+More code examples in [tests folder](/GLAVAK/Lang/tree/master/tests).
 
 ## VM, bytecode and realization details
 For planned features support (maybe I'll be able to add some OOP and GC), and rather just it's easier, code gets compiled not to real machine code, but to bytecode. It's similar to Java bytecode, for stack virtual machine. Specs of bytecode is in `docs` folder. VM are written in C (in a very bad perfomance way yet), and the compiler on python3
