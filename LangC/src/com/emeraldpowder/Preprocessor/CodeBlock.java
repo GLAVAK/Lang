@@ -2,6 +2,8 @@ package com.emeraldpowder.Preprocessor;
 
 import com.emeraldpowder.Common.PositionInCode;
 
+import java.util.List;
+
 /**
  * Created by glavak on Feb 16, 17.
  */
@@ -9,7 +11,7 @@ public abstract class CodeBlock
 {
     public PositionInCode position;
     public CodeBlock nextBlock;
-    public String content;
+    public List<Token> content;
 
     MovingDirection arrowDirection;
 

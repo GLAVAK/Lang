@@ -31,6 +31,8 @@ public class Main
             System.out.println("Error reading file:");
             System.out.println("\t" + error.toString());
         }
+
+        System.out.println("Compilation succeeded with no errors");
     }
 
     private static void compileFile(String filename)

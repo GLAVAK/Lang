@@ -7,6 +7,7 @@ import com.emeraldpowder.Common.PositionInCode;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by glavak on Feb 16, 17.
@@ -15,14 +16,14 @@ import java.util.ArrayList;
 public class Preprocessor
 {
     private CodeBlock startingBlock;
-    private ArrayList<CodeBlock> blocks;
+    private List<CodeBlock> blocks;
 
     public CodeBlock getStartingBlock()
     {
         return startingBlock;
     }
 
-    public ArrayList<CodeBlock> getBlocks()
+    public List<CodeBlock> getBlocks()
     {
         return blocks;
     }
@@ -101,15 +102,16 @@ public class Preprocessor
     private void endBlock(String line, int columnNum, CodeBlock currentBlock)
             throws CompilerError
     {
-        currentBlock.content= line.substring(currentBlock.position.getColumn()+1, columnNum);
+        String content = line.substring(currentBlock.position.getColumn() + 1, columnNum);
+        currentBlock.content = BlockContentParser.stringToTokens(content, currentBlock.position/*TODO: Add 1 or 2 for braces and arrow*/);
 
         MovingDirection arrowOnLeft = null;
         MovingDirection arrowOnRight = null;
         if (currentBlock.position.getColumn() > 0)
         {
-            char charOnLeft = line.charAt(currentBlock.position.getColumn() -1);
+            char charOnLeft = line.charAt(currentBlock.position.getColumn() - 1);
             arrowOnLeft = Utils.charToDirection(charOnLeft);
-            currentBlock.position.setColumn(currentBlock.position.getColumn() -1);
+            currentBlock.position.setColumn(currentBlock.position.getColumn() - 1);
         }
         if (columnNum + 1 < line.length())
         {
@@ -144,7 +146,7 @@ public class Preprocessor
             else
             {
                 currentBlock.arrowDirection = arrowOnRight;
-                ((CodeBlockCondition)currentBlock).arrowElseDirection = arrowOnLeft;
+                ((CodeBlockCondition) currentBlock).arrowElseDirection = arrowOnLeft;
             }
         }
 
@@ -161,7 +163,7 @@ public class Preprocessor
             block.nextBlock = findBlockByArrow(block.getArrowPosition(), block.arrowDirection);
             if (block instanceof CodeBlockCondition)
             {
-                CodeBlockCondition blockAsCondition = (CodeBlockCondition)block;
+                CodeBlockCondition blockAsCondition = (CodeBlockCondition) block;
                 blockAsCondition.nextElseBlock = findBlockByArrow(
                         blockAsCondition.getElseArrowPosition(),
                         blockAsCondition.arrowElseDirection);
